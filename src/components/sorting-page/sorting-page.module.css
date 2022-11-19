@@ -1,0 +1,15 @@
+.inputArea {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.circleArea {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+.stringContentArea {
+  display: flex;
+  gap: 120px;
+  flex-direction: column;
+}

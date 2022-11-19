@@ -12,16 +12,17 @@ export const StringComponent: React.FC = () => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWord(event.target.value);
   };
+  const arrayFromString = Array.from(word);
 
   return (
     <SolutionLayout title='Строка'>
       <div className={`${styles.stringContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} maxLength={11} extraClass={'string'} onChange={handleChange} />
+          <Input isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} />
           <Button text={'Развернуть'} extraClass={'button-style'} />
         </div>
         <div className={`${styles.circleArea}`}>
-          {Array.from(word).map((elem) => {
+          {arrayFromString.map((elem) => {
             return <Circle letter={elem} />;
           })}
         </div>

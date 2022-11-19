@@ -1,7 +1,7 @@
-.string {
-  max-width: 377px;
+.input-style {
+  width: 377px;
 }
 
 .button-style {
-  min-width: 138px;
+  width: 178px;
 }

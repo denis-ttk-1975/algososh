@@ -1,0 +1,28 @@
+.inputArea {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.circleArea {
+  display: flex;
+  row-gap: 48px;
+  column-gap: 16px;
+  flex-wrap: wrap;
+  justify-content: start;
+  max-width: 944px;
+}
+.fibonacciContentArea {
+  display: flex;
+  gap: 48px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 944px;
+  margin: 0 auto;
+}
+.countedCircle {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
