@@ -8,7 +8,7 @@ import styles from './fibonacci.module.css';
 // import './fibonacci.css';
 
 export const FibonacciPage: React.FC = () => {
-  const [word, setWord] = useState('112345678987654321');
+  const [word, setWord] = useState('112345678998');
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWord(event.target.value);
   };

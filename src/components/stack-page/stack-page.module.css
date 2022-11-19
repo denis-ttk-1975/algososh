@@ -8,8 +8,14 @@
   gap: 16px;
   justify-content: center;
 }
-.stringContentArea {
+.stackContentArea {
   display: flex;
-  gap: 120px;
+  gap: 48px;
   flex-direction: column;
+}
+.countedCircle {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  justify-content: end;
 }
