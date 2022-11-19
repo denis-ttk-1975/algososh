@@ -8,22 +8,34 @@ import styles from './queue-page.module.css';
 // import './queue-page.css';
 
 export const QueuePage: React.FC = () => {
-  const [word, setWord] = useState('hello');
+  const [word, setWord] = useState('253    ');
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWord(event.target.value);
   };
-  const arrayFromString = Array.from(word);
+  const queueFromTask = Array.from(word);
 
   return (
     <SolutionLayout title='Очередь'>
-      <div className={`${styles.stringContentArea}`}>
+      <div className={`${styles.queueContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} maxLength={11} extraClass={'string'} onChange={handleChange} />
-          <Button text={'Развернуть'} extraClass={'button-style'} />
+          <Input isLimitText={true} type={'number'} max={4} extraClass={'input-style'} onChange={handleChange} />
+          <Button text={'Добавить'} extraClass={''} />
+          <Button text={'Удалить'} extraClass={''} />
+
+          <Button text={'Очистить'} extraClass={'margin-left-68'} />
         </div>
         <div className={`${styles.circleArea}`}>
-          {arrayFromString.map((elem) => {
-            return <Circle letter={elem} />;
+          {queueFromTask.map((elem, key, array) => {
+            return (
+              <div className={`${styles.countedCircleWithUnderText}`}>
+                <div className={`${styles.countedCircle}`}>
+                  <p>{key === 1 ? 'head' : ' '}</p>
+                  <Circle letter={elem} />
+                  <p>{key}</p>
+                </div>
+                <p>{key === 5 ? 'tail' : ' '}</p>
+              </div>
+            );
           })}
         </div>
       </div>
