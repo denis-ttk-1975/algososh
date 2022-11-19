@@ -1,7 +1,7 @@
-.string {
-  max-width: 377px;
+.button-style-middle {
+  min-width: 175px;
 }
 
-.button-style {
-  min-width: 138px;
+.button-style-long {
+  min-width: 362px;
 }
