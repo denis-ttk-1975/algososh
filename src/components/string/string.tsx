@@ -1,8 +1,9 @@
-import React, { useState, ChangeEvent, MouseEventHandler, MouseEvent } from 'react';
+import React, { useState, ChangeEvent, MouseEventHandler, MouseEvent, useRef, useEffect } from 'react';
 import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
+import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import styles from './string.module.css';
 import './string.css';
@@ -10,6 +11,8 @@ import './string.css';
 let arrayFromString: string[] = [];
 
 export const StringComponent: React.FC = () => {
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [word, setWord] = useState('');
   const [isStringTurning, setStringTurning] = useState(false);
 
@@ -17,19 +20,20 @@ export const StringComponent: React.FC = () => {
     setWord(event.target.value);
   };
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setStringTurning(!isStringTurning);
+    setStringTurning((isStringTurning) => !isStringTurning);
     arrayFromString = Array.from(word);
-    console.log('arrayFromString1: ', arrayFromString);
-    setStringTurning(!isStringTurning);
+    timerRef.current = setTimeout(() => {
+      console.log('nop');
+      setStringTurning((isStringTurning) => !isStringTurning);
+    }, 1000);
   };
-  console.log('arrayFromString2: ', arrayFromString);
 
   return (
     <SolutionLayout title='Строка'>
       <div className={`${styles.stringContentArea}`}>
         <div className={`${styles.inputArea}`}>
           <Input isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} />
-          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} />
+          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isStringTurning} />
         </div>
         <div className={`${styles.circleArea}`}>
           <div></div>
