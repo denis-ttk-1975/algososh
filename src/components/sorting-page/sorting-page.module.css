@@ -2,14 +2,17 @@
   display: flex;
   gap: 12px;
   justify-content: center;
+  align-items: center;
 }
-.circleArea {
+.columnArea {
   display: flex;
   gap: 16px;
   justify-content: center;
+  align-items: end;
+  padding-bottom: 46px;
 }
-.stringContentArea {
+.sortingContentArea {
   display: flex;
-  gap: 120px;
+  gap: 70px;
   flex-direction: column;
 }
