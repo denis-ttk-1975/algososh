@@ -1,11 +1,9 @@
-import React, { useState, ChangeEvent, MouseEventHandler, MouseEvent, useRef, useEffect } from 'react';
+import React, { useState, ChangeEvent, MouseEvent, useRef } from 'react';
 import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 import { ElementStates } from '../../types/element-states';
-
-import { sleep } from './../../utils/sleep';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
@@ -36,9 +34,7 @@ export const StringComponent: React.FC = () => {
       arrayArg[firstIndex - 1] = { element: arrayArg[secondIndex + 1].element, type: ElementStates.Modified };
       arrayArg[secondIndex + 1] = { element: temporalValue, type: ElementStates.Modified };
     }
-    setTurningArray((array) => {
-      return [...arrayArg];
-    });
+    setTurningArray(() => [...arrayArg]);
 
     secondIndex = secondIndex - 1;
     firstIndex = firstIndex + 1;
@@ -48,10 +44,12 @@ export const StringComponent: React.FC = () => {
         changeTwoElements(arrayArg, firstIndex, secondIndex);
       }, DELAY_IN_MS);
     } else {
-      arrayArg = arrayArg.map((elem) => {
-        return { ...elem, type: ElementStates.Modified };
-      });
-      setTurningArray(() => [...arrayArg]);
+      timerRef.current = setTimeout(() => {
+        arrayArg = arrayArg.map((elem) => {
+          return { ...elem, type: ElementStates.Modified };
+        });
+        setTurningArray(() => [...arrayArg]);
+      }, DELAY_IN_MS);
     }
   };
 
@@ -70,6 +68,7 @@ export const StringComponent: React.FC = () => {
 
     setStringTurning(false);
   };
+
   return (
     <SolutionLayout title='Строка'>
       <div className={`${styles.stringContentArea}`}>
