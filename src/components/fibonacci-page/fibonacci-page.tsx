@@ -4,6 +4,8 @@ import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 
+import { delay, sleep } from './../../utils/sleep';
+
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import styles from './fibonacci.module.css';
@@ -27,63 +29,48 @@ export const FibonacciPage: React.FC = () => {
     console.log('fibonacciRow: ', [...fibonacciRow]);
 
     let newElement: number;
+    console.log('fibonacciRow.length: ', fibonacciRow.length);
     if (fibonacciRow.length < 2) {
       newElement = 1;
     } else {
       newElement = fibonacciRow[fibonacciRow.length - 1] + fibonacciRow[fibonacciRow.length - 2];
     }
     console.log('newElement: ', newElement);
-    // timerRef.current = setTimeout(() => {
-    setFibonacciRow((prevRow) => [...prevRow, newElement]);
 
     if (digit === 1 || fibonacciRow.length === digit) {
+      setFibonacciRow((prevRow) => [...prevRow, newElement]);
+
       return;
     } else {
       timerRef.current = setTimeout(() => {
+        setFibonacciRow((prevRow) => [...prevRow, newElement]);
+
+        console.log('fibonacciRow2: ', [...fibonacciRow]);
+
         generateNextArrayFibonacciElement(digit);
       }, DELAY_IN_MS);
     }
-
-    // }, DELAY_IN_MS);
   };
 
   const generateFibonacciRow = (quantity: number): void => {
     let result: number[] = [];
     for (let index = 0; index <= quantity; index++) {
-      // timerRef.current = setTimeout(() => {
-      //   if (index === 0 || index === 1) {
-      //     // result.push(1);
-      //     setFibonacciRow((prevRow) => [...prevRow, 1]);
-      //   } else {
-      //     console.log('result[-1]: ', result[result.length - 1]);
-      //     console.log('result[-2]: ', result[result.length - 2]);
-      //     setFibonacciRow((prevRow) => [...prevRow, prevRow[prevRow.length - 1] + prevRow[prevRow.length - 2]]);
-      //     // result.push(result[result.length - 1] + result[result.length - 2]);
-      //   }
-      //   // console.log('result: ', result);
-      //   // setFibonacciRow(() => [...result]);
-      // }, DELAY_IN_MS);
-      // if (index === 0 || index === 1) {
-      //   timerRef.current = setTimeout(() => {
-      //     setFibonacciRow((prevRow) => [...prevRow, 1]);
-      //   }, DELAY_IN_MS);
-      // } else {
-      //   timerRef.current = setTimeout(() => {
-      //     setFibonacciRow((prevRow) => [...prevRow, prevRow[prevRow.length - 1] + prevRow[prevRow.length - 2]]);
-      //   }, DELAY_IN_MS);
-      // }
+      if (index === 0 || index === 1) {
+        delay(DELAY_IN_MS).then(() => setFibonacciRow((prevRow) => [...prevRow, 1]));
+      } else {
+        console.log('result[-1]: ', result[result.length - 1]);
+        console.log('result[-2]: ', result[result.length - 2]);
+        delay(DELAY_IN_MS).then(() => setFibonacciRow((prevRow) => [...prevRow, prevRow[prevRow.length - 1] + prevRow[prevRow.length - 2]]));
+      }
+      console.log('fibonacciRow1: ', [...fibonacciRow]);
     }
   };
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setRowRendering(true);
 
-    // while (fibonacciRow.length <= amount) {
     console.log('fibonacciRow: ', [...fibonacciRow]);
-    // timerRef.current = setTimeout(() => {
-    generateNextArrayFibonacciElement(amount);
-    // }, DELAY_IN_MS);
-    // }
-    // generateFibonacciRow(amount);
+
+    generateFibonacciRow(amount);
 
     setRowRendering(false);
   };
@@ -99,7 +86,7 @@ export const FibonacciPage: React.FC = () => {
           {fibonacciRow.map((elem, key) => {
             return (
               <div className={`${styles.countedCircle}`} key={key}>
-                <p>{fibonacciRow}</p>
+                <p>{fibonacciRow.length}</p>
                 <Circle letter={elem.toString()} />
                 <p>{key}</p>
               </div>

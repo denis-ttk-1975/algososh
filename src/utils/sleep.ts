@@ -6,3 +6,7 @@ export function sleep(milliseconds: number, variable?: any) {
     console.log(variable);
   } while (currentDate - date < milliseconds);
 }
+
+export async function delay(ms: number) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
