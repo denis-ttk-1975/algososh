@@ -52,8 +52,7 @@ export const FibonacciPage: React.FC = () => {
           {fibonacciRow.map((elem, key) => {
             return (
               <div className={`${styles.countedCircle}`} key={key}>
-                <Circle letter={elem.toString()} />
-                <p>{key}</p>
+                <Circle letter={elem.toString()} index={key} />
               </div>
             );
           })}
