@@ -17,12 +17,12 @@ export const StringComponent: React.FC = () => {
 
   const [word, setWord] = useState('');
   const [turningArray, setTurningArray] = useState(arrayFromString);
-
   const [isStringTurning, setStringTurning] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWord(event.target.value);
   };
+
   const changeTwoElements = (arrayArg: typeof arrayFromString, firstIndex: number, secondIndex: number) => {
     if (!firstIndex) {
       arrayArg[firstIndex] = { ...arrayArg[firstIndex], type: ElementStates.Changing };
@@ -55,17 +55,14 @@ export const StringComponent: React.FC = () => {
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setStringTurning(true);
-
     let mockArray = Array.from(word);
     let start = 0;
     let end = mockArray.length - 1;
     arrayFromString = mockArray.map((elem) => {
       return { element: elem, type: ElementStates.Default };
     });
-
     setTurningArray(() => [...arrayFromString]);
     changeTwoElements([...arrayFromString], start, end);
-
     setStringTurning(false);
   };
 

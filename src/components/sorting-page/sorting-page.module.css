@@ -10,9 +10,12 @@
   justify-content: center;
   align-items: end;
   padding-bottom: 46px;
+  height: 348px;
+  /* align-content: flex-end; */
 }
 .sortingContentArea {
   display: flex;
   gap: 70px;
   flex-direction: column;
+  justify-content: space-between;
 }
