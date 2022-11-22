@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, MouseEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, MouseEvent, useRef, useEffect } from 'react';
 import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
@@ -14,6 +14,16 @@ let arrayFromString: { element: string; type: ElementStates }[] = [];
 
 export const StringComponent: React.FC = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // clear timer Timeout when unmounted to prevent memory leak
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   const [word, setWord] = useState('');
   const [turningArray, setTurningArray] = useState(arrayFromString);

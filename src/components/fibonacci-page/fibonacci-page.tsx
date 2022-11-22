@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, MouseEvent, useRef } from 'react';
+import React, { useState, ChangeEvent, MouseEvent, useRef, useEffect } from 'react';
 import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
@@ -12,11 +12,21 @@ import styles from './fibonacci.module.css';
 export const FibonacciPage: React.FC = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // clear timer Timeout when unmounted to prevent memory leak
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
   const [amount, setAmount] = useState(0);
   const [isRowRendering, setRowRendering] = useState(false);
   const [fibonacciRow, setFibonacciRow] = useState<number[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (fibonacciRow.length <= amount && isRowRendering) {
       if (fibonacciRow.length === 0 || fibonacciRow.length === 1) {
         timerRef.current = setTimeout(() => {
