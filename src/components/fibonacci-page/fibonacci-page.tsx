@@ -4,12 +4,15 @@ import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 
+import { sortingSelectionAscending } from './../sorting-page/utils';
+
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import styles from './fibonacci.module.css';
 // import './fibonacci.css';
 
 export const FibonacciPage: React.FC = () => {
+  sortingSelectionAscending();
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // clear timer Timeout when unmounted to prevent memory leak

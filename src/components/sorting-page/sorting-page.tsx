@@ -37,14 +37,15 @@ export const SortingPage: React.FC = () => {
       if (method === 'selection') {
         if (direction === 'Ascending') {
           timerRef.current = setTimeout(() => {
-            let temporalArray = [];
+            // debugger;
 
-            if (sortingArray[comparingElements[0]].data > sortingArray[comparingElements[1]].data) {
+            if (sortingArray[selectionMark].data > sortingArray[comparingElements[1]].data) {
               selectionMark = comparingElements[1];
               console.log('selectionMark.current: ', selectionMark);
               console.log('увеличил!!!');
             }
             if (comparingElements[1] < sortingArray.length - 1) {
+              let temporalArray = [];
               temporalArray = sortingArray.map((elem, key) => {
                 if (key === comparingElements[1]) {
                   return { data: elem.data, type: ElementStates.Default };
@@ -53,12 +54,34 @@ export const SortingPage: React.FC = () => {
                 } else return elem;
               });
               comparingElements[1] = comparingElements[1] + 1;
-              console.log('sortingArray: ', [...sortingArray]);
 
               setSortingArray(temporalArray);
             }
             if (comparingElements[1] === sortingArray.length - 1) {
-              setDirection(null);
+              const elemA = sortingArray[comparingElements[0]].data;
+              const elemB = sortingArray[selectionMark].data;
+              let temporalArray = [];
+
+              temporalArray = sortingArray.map((elem, key) => {
+                if (key === comparingElements[0]) {
+                  return { data: elemB, type: ElementStates.Modified };
+                } else if (key === selectionMark) {
+                  return { data: elemA, type: ElementStates.Default };
+                } else if (key > comparingElements[0] + 2) {
+                  return { data: elem.data, type: ElementStates.Default };
+                } else if (key === comparingElements[0] + 1 || key === comparingElements[0] + 2) {
+                  return { data: elem.data, type: ElementStates.Changing };
+                } else return elem;
+              });
+              setSortingArray(temporalArray);
+
+              comparingElements[0] = comparingElements[0] + 1;
+              comparingElements[1] = comparingElements[0] + 1;
+              selectionMark = comparingElements[0];
+              if (comparingElements[0] === sortingArray.length - 1) {
+                setDirection(null);
+              }
+              // setDirection(null);
             }
           }, SHORT_DELAY_IN_MS);
         } else {
@@ -72,6 +95,8 @@ export const SortingPage: React.FC = () => {
     }
     console.log('selectionMark: ', selectionMark);
     console.log('comparingElements: ', [...comparingElements]);
+    console.log('sortingArray: ', [...sortingArray]);
+
     console.log('direction: ', direction);
   }, [sortingArray, direction]);
 
@@ -82,9 +107,9 @@ export const SortingPage: React.FC = () => {
   const handleStartSortingAscending = (event: MouseEvent<HTMLButtonElement>) => {
     setDirection('Ascending');
     markFirstComparingElements();
-    timerRef.current = setTimeout(() => {
-      setDirection(null);
-    }, 10000);
+    // timerRef.current = setTimeout(() => {
+    //   setDirection(null);
+    // }, 15000);
   };
 
   const handleStartSortingDescending = (event: MouseEvent<HTMLButtonElement>) => {
@@ -112,7 +137,7 @@ export const SortingPage: React.FC = () => {
 
   const markFirstComparingElements = () => {
     comparingElements = [0, 1];
-    console.log('comparingElements: ', [...comparingElements]);
+    console.log('comparingElements first: ', [...comparingElements]);
     const elem1 = { data: sortingArray[0].data, type: ElementStates.Changing };
     const elem2 = { data: sortingArray[1].data, type: ElementStates.Changing };
     setSortingArray([elem1, elem2, ...[...sortingArray].splice(2)]);
@@ -131,16 +156,16 @@ export const SortingPage: React.FC = () => {
             onClick={handleStartSortingAscending}
             extraClass={''}
             isLoader={direction === 'Ascending'}
-            disabled={direction === 'Descending'}
+            disabled={direction === 'Descending' || !sortingArray.length}
             name='Ascending'
           />
           <Button
             sorting={Direction.Descending}
             text={'По убыванию'}
-            onClick={handleStartSortingDescending}
+            onClick={handleStartSortingAscending}
             extraClass={''}
             isLoader={direction === 'Descending'}
-            disabled={direction === 'Ascending'}
+            disabled={direction === 'Ascending' || !sortingArray.length}
             name='Descending'
           />
           <Button text={'Новый массив'} extraClass={'margin-left-68'} onClick={handleGenerateNewArray} disabled={!!direction} />
