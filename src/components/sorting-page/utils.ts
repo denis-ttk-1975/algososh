@@ -119,6 +119,82 @@ export function sortingSelectionDescending(result: Array<{ data: number; type: E
   }
 }
 
-export function sortingBubbleAscending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {}
+export function sortingBubbleAscending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {
+  let wholeAmount = mockArray.length;
 
-export function sortingBubbleDescending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {}
+  let tempArray = [...mockArray];
+
+  result[1] = tempArray.map((elem, key) => {
+    return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
+  });
+
+  for (let j = wholeAmount - 1; j > 0; j--) {
+    for (let i = 0; i < j; i++) {
+      result.push(
+        tempArray.map((elem, key) => {
+          let color;
+          if (key > j) {
+            color = ElementStates.Modified;
+          } else if (key === i || key === i + 1) {
+            color = ElementStates.Changing;
+          } else {
+            color = ElementStates.Default;
+          }
+          return { data: elem, type: color };
+        })
+      );
+
+      if (tempArray[i] > tempArray[i + 1]) {
+        [tempArray[i], tempArray[i + 1]] = [tempArray[i + 1], tempArray[i]];
+      }
+    }
+  }
+  if (tempArray[0] > tempArray[1]) {
+    [tempArray[0], tempArray[1]] = [tempArray[1], tempArray[0]];
+  }
+  result.push(
+    tempArray.map((elem) => {
+      return { data: elem, type: ElementStates.Modified };
+    })
+  );
+}
+
+export function sortingBubbleDescending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {
+  let wholeAmount = mockArray.length;
+
+  let tempArray = [...mockArray];
+
+  result[1] = tempArray.map((elem, key) => {
+    return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
+  });
+
+  for (let j = wholeAmount - 1; j > 0; j--) {
+    for (let i = 0; i < j; i++) {
+      result.push(
+        tempArray.map((elem, key) => {
+          let color;
+          if (key > j) {
+            color = ElementStates.Modified;
+          } else if (key === i || key === i + 1) {
+            color = ElementStates.Changing;
+          } else {
+            color = ElementStates.Default;
+          }
+          return { data: elem, type: color };
+        })
+      );
+
+      if (tempArray[i] < tempArray[i + 1]) {
+        [tempArray[i], tempArray[i + 1]] = [tempArray[i + 1], tempArray[i]];
+      }
+    }
+  }
+  if (tempArray[0] < tempArray[1]) {
+    [tempArray[0], tempArray[1]] = [tempArray[1], tempArray[0]];
+  }
+  result.push(
+    tempArray.map((elem) => {
+      return { data: elem, type: ElementStates.Modified };
+    })
+  );
+}
