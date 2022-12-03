@@ -33,38 +33,20 @@ export const SortingPage: React.FC = () => {
   const [method, setMethod] = useState<'selection' | 'bubble'>('selection');
   const [direction, setDirection] = useState<'Ascending' | 'Descending' | null>(null);
 
-  const [pointer, setPointer] = useState(0);
   const [sortingArray, setSortingArray] = useState<{ data: number; type: ElementStates }[]>([]);
 
   useEffect(() => {
     if (!!direction) {
-      if (method === 'selection') {
-        if (direction === 'Ascending') {
-          timerRef.current = setTimeout(() => {
-            if (pointerToArrayElementToShow < result.length - 1) {
-              setSortingArray(result[pointerToArrayElementToShow + 1]);
-              pointerToArrayElementToShow = pointerToArrayElementToShow + 1;
-            } else {
-              result = [result[0]];
-              pointerToArrayElementToShow = 0;
-              setDirection(null);
-            }
-          }, SHORT_DELAY_IN_MS);
+      timerRef.current = setTimeout(() => {
+        if (pointerToArrayElementToShow < result.length - 1) {
+          setSortingArray(result[pointerToArrayElementToShow + 1]);
+          pointerToArrayElementToShow = pointerToArrayElementToShow + 1;
         } else {
-          timerRef.current = setTimeout(() => {
-            if (pointerToArrayElementToShow < result.length - 1) {
-              setSortingArray(result[pointerToArrayElementToShow + 1]);
-              pointerToArrayElementToShow = pointerToArrayElementToShow + 1;
-            } else {
-              result = [result[0]];
-              pointerToArrayElementToShow = 0;
-              setDirection(null);
-            }
-          }, SHORT_DELAY_IN_MS);
+          result = [result[0]];
+          pointerToArrayElementToShow = 0;
+          setDirection(null);
         }
-      } else {
-        timerRef.current = setTimeout(() => {}, SHORT_DELAY_IN_MS);
-      }
+      }, SHORT_DELAY_IN_MS);
     } else {
       setDirection(null);
     }
@@ -76,18 +58,14 @@ export const SortingPage: React.FC = () => {
 
   const handleStartSortingAscending = (event: MouseEvent<HTMLButtonElement>) => {
     let pointerA = 0;
-    // wholeAmount = arrayToSort.length;
     let wholeAmount = mockArray.length;
-    console.log('wholeAmount: ', wholeAmount);
 
     let tempArray = [...mockArray];
-    console.log('tempArray: ', tempArray);
 
     result[1] = tempArray.map((elem, key) => {
       return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
     });
     while (pointerA < wholeAmount - 1) {
-      console.log('tempArray: ', [...tempArray]);
 
       let pointerMin = pointerA;
 
@@ -151,7 +129,6 @@ export const SortingPage: React.FC = () => {
     });
 
     while (pointerA < wholeAmount - 1) {
-      console.log('tempArray: ', [...tempArray]);
 
       let pointerMax = pointerA;
 
@@ -175,8 +152,6 @@ export const SortingPage: React.FC = () => {
           );
         }
 
-        console.log('result333: ', result);
-        // debugger;
       }
       if (pointerMax !== pointerA) {
         [tempArray[pointerMax], tempArray[pointerA]] = [tempArray[pointerA], tempArray[pointerMax]];
@@ -202,14 +177,12 @@ export const SortingPage: React.FC = () => {
             })
           );
     }
-    // debugger;
-    console.log(result);
+
     setDirection('Descending');
   };
 
   const handleGenerateNewArray = (event: MouseEvent<HTMLButtonElement>) => {
     setSortingArray(generateNewArray());
-    // selectionMark = 0;
     setMethod('selection');
     setDirection(null);
   };
@@ -225,8 +198,7 @@ export const SortingPage: React.FC = () => {
     result[0] = mockArray.map((elem) => {
       return { data: elem, type: ElementStates.Default };
     });
-    console.log('mockArray: ', [...mockArray]);
-    console.log('result: ', [...result]);
+
     return result[0];
   };
 
