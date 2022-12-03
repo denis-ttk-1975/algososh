@@ -8,6 +8,8 @@ import { ElementStates } from '../../types/element-states';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
+import { sortingSelectionAscending, sortingSelectionDescending, sortingBubbleAscending, sortingBubbleDescending } from './utils';
+
 import styles from './sorting-page.module.css';
 import './sorting-page.css';
 
@@ -44,6 +46,7 @@ export const SortingPage: React.FC = () => {
         } else {
           result = [result[0]];
           pointerToArrayElementToShow = 0;
+          setMethod('selection');
           setDirection(null);
         }
       }, SHORT_DELAY_IN_MS);
@@ -57,127 +60,21 @@ export const SortingPage: React.FC = () => {
   };
 
   const handleStartSortingAscending = (event: MouseEvent<HTMLButtonElement>) => {
-    let pointerA = 0;
-    let wholeAmount = mockArray.length;
-
-    let tempArray = [...mockArray];
-
-    result[1] = tempArray.map((elem, key) => {
-      return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
-    });
-    while (pointerA < wholeAmount - 1) {
-
-      let pointerMin = pointerA;
-
-      for (let i = pointerA + 1; i <= wholeAmount - 1; i++) {
-        if (tempArray[i] < tempArray[pointerMin]) {
-          pointerMin = i;
-        }
-        if (i < wholeAmount - 1) {
-          result.push(
-            tempArray.map((elem, key) => {
-              let color;
-              if (key < pointerA) {
-                color = ElementStates.Modified;
-              } else if (key === pointerA || key === i + 1) {
-                color = ElementStates.Changing;
-              } else {
-                color = ElementStates.Default;
-              }
-              return { data: elem, type: color };
-            })
-          );
-        }
-      }
-      if (pointerMin !== pointerA) {
-        [tempArray[pointerMin], tempArray[pointerA]] = [tempArray[pointerA], tempArray[pointerMin]];
-      }
-      pointerA++;
-      pointerA !== wholeAmount - 1
-        ? result.push(
-            tempArray.map((elem, key) => {
-              let color;
-              if (key < pointerA) {
-                color = ElementStates.Modified;
-              } else if (key === pointerA || key === pointerA + 1) {
-                color = ElementStates.Changing;
-              } else {
-                color = ElementStates.Default;
-              }
-              return { data: elem, type: color };
-            })
-          )
-        : result.push(
-            tempArray.map((elem, key) => {
-              return { data: elem, type: ElementStates.Modified };
-            })
-          );
+    if (method === 'selection') {
+      sortingSelectionAscending(result, mockArray);
+    } else {
+      sortingBubbleAscending(result, mockArray);
     }
 
     setDirection('Ascending');
   };
 
   const handleStartSortingDescending = (event: MouseEvent<HTMLButtonElement>) => {
-    let pointerA = 0;
-    // wholeAmount = arrayToSort.length;
-    let wholeAmount = mockArray.length;
-
-    let tempArray = [...mockArray];
-
-    result[1] = tempArray.map((elem, key) => {
-      return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
-    });
-
-    while (pointerA < wholeAmount - 1) {
-
-      let pointerMax = pointerA;
-
-      for (let i = pointerA + 1; i <= wholeAmount - 1; i++) {
-        if (tempArray[i] > tempArray[pointerMax]) {
-          pointerMax = i;
-        }
-        if (i < wholeAmount - 1) {
-          result.push(
-            tempArray.map((elem, key) => {
-              let color;
-              if (key < pointerA) {
-                color = ElementStates.Modified;
-              } else if (key === pointerA || key === i + 1) {
-                color = ElementStates.Changing;
-              } else {
-                color = ElementStates.Default;
-              }
-              return { data: elem, type: color };
-            })
-          );
-        }
-
-      }
-      if (pointerMax !== pointerA) {
-        [tempArray[pointerMax], tempArray[pointerA]] = [tempArray[pointerA], tempArray[pointerMax]];
-      }
-      pointerA++;
-      pointerA !== wholeAmount - 1
-        ? result.push(
-            tempArray.map((elem, key) => {
-              let color;
-              if (key < pointerA) {
-                color = ElementStates.Modified;
-              } else if (key === pointerA || key === pointerA + 1) {
-                color = ElementStates.Changing;
-              } else {
-                color = ElementStates.Default;
-              }
-              return { data: elem, type: color };
-            })
-          )
-        : result.push(
-            tempArray.map((elem, key) => {
-              return { data: elem, type: ElementStates.Modified };
-            })
-          );
+    if (method === 'selection') {
+      sortingSelectionDescending(result, mockArray);
+    } else {
+      sortingBubbleDescending(result, mockArray);
     }
-
     setDirection('Descending');
   };
 
