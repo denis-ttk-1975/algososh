@@ -51,7 +51,16 @@ export const SortingPage: React.FC = () => {
             }
           }, SHORT_DELAY_IN_MS);
         } else {
-          timerRef.current = setTimeout(() => {}, SHORT_DELAY_IN_MS);
+          timerRef.current = setTimeout(() => {
+            if (pointerToArrayElementToShow < result.length - 1) {
+              setSortingArray(result[pointerToArrayElementToShow + 1]);
+              pointerToArrayElementToShow = pointerToArrayElementToShow + 1;
+            } else {
+              result = [result[0]];
+              pointerToArrayElementToShow = 0;
+              setDirection(null);
+            }
+          }, SHORT_DELAY_IN_MS);
         }
       } else {
         timerRef.current = setTimeout(() => {}, SHORT_DELAY_IN_MS);
@@ -131,6 +140,70 @@ export const SortingPage: React.FC = () => {
   };
 
   const handleStartSortingDescending = (event: MouseEvent<HTMLButtonElement>) => {
+    let pointerA = 0;
+    // wholeAmount = arrayToSort.length;
+    let wholeAmount = mockArray.length;
+
+    let tempArray = [...mockArray];
+
+    result[1] = tempArray.map((elem, key) => {
+      return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
+    });
+
+    while (pointerA < wholeAmount - 1) {
+      console.log('tempArray: ', [...tempArray]);
+
+      let pointerMax = pointerA;
+
+      for (let i = pointerA + 1; i <= wholeAmount - 1; i++) {
+        if (tempArray[i] > tempArray[pointerMax]) {
+          pointerMax = i;
+        }
+        if (i < wholeAmount - 1) {
+          result.push(
+            tempArray.map((elem, key) => {
+              let color;
+              if (key < pointerA) {
+                color = ElementStates.Modified;
+              } else if (key === pointerA || key === i + 1) {
+                color = ElementStates.Changing;
+              } else {
+                color = ElementStates.Default;
+              }
+              return { data: elem, type: color };
+            })
+          );
+        }
+
+        console.log('result333: ', result);
+        // debugger;
+      }
+      if (pointerMax !== pointerA) {
+        [tempArray[pointerMax], tempArray[pointerA]] = [tempArray[pointerA], tempArray[pointerMax]];
+      }
+      pointerA++;
+      pointerA !== wholeAmount - 1
+        ? result.push(
+            tempArray.map((elem, key) => {
+              let color;
+              if (key < pointerA) {
+                color = ElementStates.Modified;
+              } else if (key === pointerA || key === pointerA + 1) {
+                color = ElementStates.Changing;
+              } else {
+                color = ElementStates.Default;
+              }
+              return { data: elem, type: color };
+            })
+          )
+        : result.push(
+            tempArray.map((elem, key) => {
+              return { data: elem, type: ElementStates.Modified };
+            })
+          );
+    }
+    // debugger;
+    console.log(result);
     setDirection('Descending');
   };
 
@@ -176,7 +249,7 @@ export const SortingPage: React.FC = () => {
           <Button
             sorting={Direction.Descending}
             text={'По убыванию'}
-            onClick={handleStartSortingAscending}
+            onClick={handleStartSortingDescending}
             extraClass={''}
             isLoader={direction === 'Descending'}
             disabled={direction === 'Ascending' || !sortingArray.length}
