@@ -9,8 +9,6 @@ import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 import styles from './stack-page.module.css';
 import './stack-page.css';
 
-let stackFromTask: number[] = [];
-
 export const StackPage: React.FC = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -26,24 +24,30 @@ export const StackPage: React.FC = () => {
 
   const [word, setWord] = useState<number | null>(null);
 
+  const [stackForRender, setStackForRender] = useState<number[]>([]);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWord(+event.target.value);
   };
 
   const handleAddClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (word) {
-      stackFromTask.push(word);
+      setStackForRender([...stackForRender, word]);
     }
   };
 
   const handleDeleteClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (stackFromTask.length) {
-      stackFromTask.pop();
+    if (stackForRender.length <= 1) {
+      setStackForRender([]);
+    } else {
+      let arrayWithoutLastElement = [...stackForRender];
+      arrayWithoutLastElement.pop();
+      setStackForRender(arrayWithoutLastElement);
     }
   };
 
   const handlePurgeClick = (event: MouseEvent<HTMLButtonElement>) => {
-    stackFromTask = [];
+    setStackForRender([]);
   };
 
   return (
@@ -51,18 +55,16 @@ export const StackPage: React.FC = () => {
       <div className={`${styles.stackContentArea}`}>
         <div className={`${styles.inputArea}`}>
           <Input isLimitText={true} type={'number'} max={9999} extraClass={'input-style'} onChange={handleChange} />
-          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} />
+          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} />
           <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} />
 
           <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} />
         </div>
         <div className={`${styles.circleArea}`}>
-          {stackFromTask.map((elem, key, array) => {
+          {stackForRender.map((elem, key, array) => {
             return (
               <div className={`${styles.countedCircle}`} key={key}>
-                <p>{key !== array.length - 1 ? ' ' : 'top'}</p>
-                <Circle letter={String(elem)} />
-                <p>{key}</p>
+                <Circle letter={String(elem)} head={key !== array.length - 1 ? ' ' : 'top'} index={key} />
               </div>
             );
           })}
