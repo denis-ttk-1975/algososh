@@ -45,7 +45,7 @@ export const QueuePage: React.FC = () => {
         } else {
           queueHead = 0;
         }
-        queueTail = ((queueHead + queueArray.length) % 7) - 1;
+        queueTail = (queueHead + queueArray.length - 1) % 7;
         console.log('queueTail: ', queueTail);
         console.log('queueHead: ', queueHead);
         console.log('queueArray: ', queueArray);
@@ -93,7 +93,7 @@ export const QueuePage: React.FC = () => {
       } else {
         queueHead = 0;
       }
-      queueTail = ((queueHead + queueArray.length) % 7) - 1;
+      queueTail = (queueHead + queueArray.length - 1) % 7;
 
       for (let i = 0, j = queueArray.length - 1; i <= j; i++) {
         let index;
