@@ -1,6 +1,5 @@
 import { ElementStates } from '../../types/element-states';
 
-// export function sortingSelectionAscending(arrayToSort: { data: number; type: ElementStates }[]) {
 export function sortingSelectionAscending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {
   let pointerA = 0;
   let wholeAmount = mockArray.length;
@@ -61,7 +60,6 @@ export function sortingSelectionAscending(result: Array<{ data: number; type: El
 
 export function sortingSelectionDescending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {
   let pointerA = 0;
-  // wholeAmount = arrayToSort.length;
   let wholeAmount = mockArray.length;
 
   let tempArray = [...mockArray];

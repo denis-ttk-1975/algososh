@@ -7,7 +7,6 @@ import { Button } from '../ui/button/button';
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import styles from './fibonacci.module.css';
-// import './fibonacci.css';
 
 export const FibonacciPage: React.FC = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

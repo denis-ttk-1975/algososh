@@ -8,7 +8,6 @@ import { ElementStates } from '../../types/element-states';
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import styles from './queue-page.module.css';
-// import './queue-page.css';
 
 let queueArray: string[] = [];
 let queueHead = 0;
@@ -56,9 +55,7 @@ export const QueuePage: React.FC = () => {
           queueHead = 0;
         }
         queueTail = (queueHead + queueArray.length - 1) % 7;
-        console.log('queueTail: ', queueTail);
-        console.log('queueHead: ', queueHead);
-        console.log('queueArray: ', queueArray);
+
         for (let i = 0, j = queueArray.length - 1; i <= j; i++) {
           let index;
           if (i + queueHead > 6) {
@@ -73,14 +70,12 @@ export const QueuePage: React.FC = () => {
             bulletArray[i] = ' ';
           }
         }
-        console.log('bulletArray: ', bulletArray);
         setQueueForRender(() => [...bulletArray]);
 
         setWord('');
         setAnimation('tail');
       }
     } else alert('В данном примере очередь ограничена 7 элементами. Пожалуйста, удалите один или несколько элементов, чтобы добавить новый элемент.');
-    console.log('queueArray: ', queueArray);
   };
 
   const handleDeleteClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -123,14 +118,9 @@ export const QueuePage: React.FC = () => {
       setQueueForRender([...bulletArray]);
       setAnimation('head');
     }
-    console.log('queueArray: ', queueArray);
-    console.log('queueTail: ', queueTail);
-    console.log('queueHead: ', queueHead);
   };
 
   const handlePurgeClick = (event: MouseEvent<HTMLButtonElement>) => {
-    console.log('queueArray: ', queueArray);
-
     let bulletArray: string[] = [];
     for (let i = 0; i < 7; i++) {
       if (!bulletArray[i]) {
