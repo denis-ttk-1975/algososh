@@ -69,10 +69,10 @@ export const StackPage: React.FC = () => {
       <div className={`${styles.stackContentArea}`}>
         <div className={`${styles.inputArea}`}>
           <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} />
-          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} />
-          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} />
+          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} disabled={!word} />
+          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={!stackForRender.length} />
 
-          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} />
+          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={!stackForRender.length} />
         </div>
         <div className={`${styles.circleArea}`}>
           {stackForRender.map((elem, key, array) => {

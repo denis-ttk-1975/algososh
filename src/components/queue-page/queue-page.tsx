@@ -148,10 +148,10 @@ export const QueuePage: React.FC = () => {
       <div className={`${styles.queueContentArea}`}>
         <div className={`${styles.inputArea}`}>
           <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} />
-          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} />
-          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} />
+          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} disabled={!word} />
+          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={!queueArray.length} />
 
-          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} />
+          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={!queueArray.length} />
         </div>
         <div className={`${styles.circleArea}`}>
           {queueForRender.map((elem, key, array) => {
