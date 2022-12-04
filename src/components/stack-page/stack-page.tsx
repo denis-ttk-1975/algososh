@@ -3,6 +3,7 @@ import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
+import { ElementStates } from '../../types/element-states';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
@@ -10,6 +11,18 @@ import styles from './stack-page.module.css';
 import './stack-page.css';
 
 export const StackPage: React.FC = () => {
+  const [word, setWord] = useState<string>('');
+
+  const [stackForRender, setStackForRender] = useState<string[]>([]);
+
+  const [animation, setAnimation] = useState(false);
+
+  useEffect(() => {
+    timerRef.current = setTimeout(() => {
+      setAnimation(false);
+    }, SHORT_DELAY_IN_MS);
+  }, [animation]);
+
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // clear timer Timeout when unmounted to prevent memory leak
@@ -22,10 +35,6 @@ export const StackPage: React.FC = () => {
     };
   }, []);
 
-  const [word, setWord] = useState<string>('');
-
-  const [stackForRender, setStackForRender] = useState<string[]>([]);
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWord(event.target.value);
   };
@@ -35,6 +44,7 @@ export const StackPage: React.FC = () => {
       if (word) {
         setStackForRender([...stackForRender, word]);
         setWord('');
+        setAnimation(true);
       }
     } else alert('В данном примере стек ограничен 20 элементами. Пожалуйста, удалите один или несколько элементов, чтобы добавить новый элемент.');
   };
@@ -46,6 +56,7 @@ export const StackPage: React.FC = () => {
       let arrayWithoutLastElement = [...stackForRender];
       arrayWithoutLastElement.pop();
       setStackForRender(arrayWithoutLastElement);
+      setAnimation(true);
     }
   };
 
@@ -67,7 +78,12 @@ export const StackPage: React.FC = () => {
           {stackForRender.map((elem, key, array) => {
             return (
               <div className={`${styles.countedCircle}`} key={key}>
-                <Circle letter={String(elem)} head={key !== array.length - 1 ? ' ' : 'top'} index={key} />
+                <Circle
+                  letter={String(elem)}
+                  head={key !== array.length - 1 ? ' ' : 'top'}
+                  index={key}
+                  state={animation && key === array.length - 1 ? ElementStates.Changing : ElementStates.Default}
+                />
               </div>
             );
           })}

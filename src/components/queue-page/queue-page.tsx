@@ -3,6 +3,7 @@ import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
+import { ElementStates } from '../../types/element-states';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
@@ -14,6 +15,18 @@ let queueHead = 0;
 let queueTail = 0;
 
 export const QueuePage: React.FC = () => {
+  const [word, setWord] = useState('');
+
+  const [queueForRender, setQueueForRender] = useState<string[]>([' ', ' ', ' ', ' ', ' ', ' ', ' ']);
+
+  const [animation, setAnimation] = useState<'head' | 'tail' | null>(null);
+
+  useEffect(() => {
+    timerRef.current = setTimeout(() => {
+      setAnimation(null);
+    }, SHORT_DELAY_IN_MS);
+  }, [animation]);
+
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // clear timer Timeout when unmounted to prevent memory leak
@@ -25,9 +38,6 @@ export const QueuePage: React.FC = () => {
       }
     };
   }, []);
-
-  const [word, setWord] = useState('');
-  const [queueForRender, setQueueForRender] = useState<string[]>([' ', ' ', ' ', ' ', ' ', ' ', ' ']);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWord(event.target.value);
@@ -67,6 +77,7 @@ export const QueuePage: React.FC = () => {
         setQueueForRender(() => [...bulletArray]);
 
         setWord('');
+        setAnimation('tail');
       }
     } else alert('В данном примере очередь ограничена 7 элементами. Пожалуйста, удалите один или несколько элементов, чтобы добавить новый элемент.');
     console.log('queueArray: ', queueArray);
@@ -110,6 +121,7 @@ export const QueuePage: React.FC = () => {
         }
       }
       setQueueForRender([...bulletArray]);
+      setAnimation('head');
     }
     console.log('queueArray: ', queueArray);
     console.log('queueTail: ', queueTail);
@@ -146,11 +158,14 @@ export const QueuePage: React.FC = () => {
             return (
               <div className={`${styles.countedCircleWithUnderText}`} key={key}>
                 <div className={`${styles.countedCircle}`}>
-                  {/* <p>{key === 1 ? 'head' : ' '}</p> */}
-                  <Circle letter={String(elem)} head={key === queueHead && queueArray.length ? 'head' : ' '} tail={key === queueTail && queueArray.length ? 'tail' : ' '} index={key} />
-                  {/* <p>{key}</p> */}
+                  <Circle
+                    letter={String(elem)}
+                    head={key === queueHead && queueArray.length ? 'head' : ' '}
+                    tail={key === queueTail && queueArray.length ? 'tail' : ' '}
+                    index={key}
+                    state={(animation === 'head' && key === queueHead) || (animation === 'tail' && key === queueTail) ? ElementStates.Changing : ElementStates.Default}
+                  />
                 </div>
-                {/* <p>{key === 5 ? 'tail' : ' '}</p> */}
               </div>
             );
           })}
