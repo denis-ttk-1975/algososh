@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef, useEffect, MouseEvent, forwardRef } from 'react';
+import React, { useState, ChangeEvent, useRef, useEffect, MouseEvent } from 'react';
 import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
