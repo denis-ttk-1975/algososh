@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useRef, useEffect, MouseEvent } from 'react';
+import React, { useState, ChangeEvent, useRef, useEffect, MouseEvent, forwardRef } from 'react';
 import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
@@ -22,18 +22,21 @@ export const StackPage: React.FC = () => {
     };
   }, []);
 
-  const [word, setWord] = useState<number | null>(null);
+  const [word, setWord] = useState<string>('');
 
-  const [stackForRender, setStackForRender] = useState<number[]>([]);
+  const [stackForRender, setStackForRender] = useState<string[]>([]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setWord(+event.target.value);
+    setWord(event.target.value);
   };
 
   const handleAddClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (word) {
-      setStackForRender([...stackForRender, word]);
-    }
+    if (stackForRender.length < 21) {
+      if (word) {
+        setStackForRender([...stackForRender, word]);
+        setWord('');
+      }
+    } else alert('В данном примере стек ограничен 20 элементами. Пожалуйста, удалите один или несколько элементов, чтобы добавить новый элемент.');
   };
 
   const handleDeleteClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -54,7 +57,7 @@ export const StackPage: React.FC = () => {
     <SolutionLayout title='Стек'>
       <div className={`${styles.stackContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} type={'number'} max={9999} extraClass={'input-style'} onChange={handleChange} />
+          <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} />
           <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} />
           <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} />
 
