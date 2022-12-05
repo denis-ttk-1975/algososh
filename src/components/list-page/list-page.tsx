@@ -3,6 +3,8 @@ import { SolutionLayout } from '../ui/solution-layout/solution-layout';
 import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
+import { ArrowIcon } from './../ui/icons/arrow-icon';
+import { ElementStates } from '../../types/element-states';
 
 import styles from './list-page.module.css';
 import './list-page.css';
@@ -34,13 +36,11 @@ export const ListPage: React.FC = () => {
         <div className={`${styles.circleArea}`}>
           {listFromTask.map((elem, key, array) => {
             return (
-              <div className={`${styles.countedCircleWithUnderText}`}>
+              <div className={`${styles.countedCircleWithUnderText}`} key={key}>
                 <div className={`${styles.countedCircle}`}>
-                  <p>{key === 1 ? 'head' : ' '}</p>
-                  <Circle letter={elem} />
-                  <p>{key}</p>
+                  <Circle letter={String(elem)} head={key === 0 ? 'head' : ' '} tail={key === array.length - 1 ? 'tail' : ' '} index={key} state={ElementStates.Default} />
+                  {key < array.length - 1 ? <ArrowIcon /> : null}
                 </div>
-                <p>{key === 4 ? 'tail' : ' '}</p>
               </div>
             );
           })}
