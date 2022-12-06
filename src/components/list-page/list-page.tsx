@@ -9,7 +9,7 @@ import { ElementStates } from '../../types/element-states';
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import { LinkedList, LinkedListNode } from './linked-list';
-import { addFirst, addLast, deleteFirst, deleteLast, addWithIndex, deleteWithIndex } from './utils';
+import { addFirst, addLast, deleteFirst, deleteLast, addWithIndex, deleteWithIndex, calculateElementState, calculateElementHead, calculateElementTail } from './utils';
 
 import styles from './list-page.module.css';
 import './list-page.css';
@@ -95,24 +95,6 @@ export const ListPage: React.FC = () => {
     }
   }, [operationToRender]);
 
-  // useEffect(() => {
-  //   intervalAnimationRef.current = setInterval(() => {
-  //     if (renderingStage === stagesToRender.length - 1) {
-  //       if (!!intervalAnimationRef.current) {
-  //         clearInterval(intervalAnimationRef.current);
-  //       }
-  //       setValueForHandle('');
-  //       setIndexForHandle('');
-  //       setStagesToRender([stagesToRender[stagesToRender.length - 1]]);
-
-  //       setOperationToRender(null);
-  //       setRenderingStage(0);
-  //       return;
-  //     }
-  //     setRenderingStage(renderingStage + 1);
-  //   }, 5000);
-  // }, [stagesToRender]);
-
   const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
     setValueForHandle(event.target.value);
   };
@@ -129,24 +111,58 @@ export const ListPage: React.FC = () => {
         <div className={`${styles.verticalInputForm}`}>
           <div className={`${styles.inputArea}`}>
             <Input isLimitText={true} type={'number'} max={9999} extraClass={'input-style'} onChange={handleChangeValue} value={valueToHandle} />
-            <Button text={'Добавить в head'} extraClass={'button-style-middle'} disabled={!valueToHandle.length} onClick={() => setOperationToRender('addFirst')} />
-            <Button text={'Добавить в tail'} extraClass={'button-style-middle'} disabled={!valueToHandle.length} onClick={() => setOperationToRender('addLast')} />
-            <Button text={'Удалить из head'} extraClass={'button-style-middle'} onClick={() => setOperationToRender('deleteFirst')} />
-            <Button text={'Удалить из tail'} extraClass={'button-style-middle'} onClick={() => setOperationToRender('deleteLast')} />
+            <Button
+              text={'Добавить в head'}
+              extraClass={'button-style-middle'}
+              disabled={!valueToHandle.length || (operationToRender !== 'addFirst' && !!operationToRender)}
+              onClick={() => setOperationToRender('addFirst')}
+              isLoader={operationToRender === 'addFirst'}
+            />
+            <Button
+              text={'Добавить в tail'}
+              extraClass={'button-style-middle'}
+              disabled={!valueToHandle.length || (operationToRender !== 'addLast' && !!operationToRender)}
+              onClick={() => setOperationToRender('addLast')}
+              isLoader={operationToRender === 'addLast'}
+            />
+            <Button
+              text={'Удалить из head'}
+              extraClass={'button-style-middle'}
+              disabled={operationToRender !== 'deleteFirst' && !!operationToRender}
+              onClick={() => setOperationToRender('deleteFirst')}
+              isLoader={operationToRender === 'deleteFirst'}
+            />
+            <Button
+              text={'Удалить из tail'}
+              extraClass={'button-style-middle'}
+              disabled={operationToRender !== 'deleteLast' && !!operationToRender}
+              onClick={() => setOperationToRender('deleteLast')}
+              isLoader={operationToRender === 'deleteLast'}
+            />
           </div>
           <div className={`${styles.inputArea}`}>
             <Input placeholder={'Введите индекс'} isLimitText={false} type={'number'} extraClass={'input-style'} onChange={handleChangeIndex} value={indexToHandle} />
             <Button
               text={'Добавить по индексу'}
               extraClass={'button-style-long'}
-              disabled={Number(indexToHandle) > list.current.toArray().length - 1 || Number(indexToHandle) < 0 || !indexToHandle.length || !valueToHandle.length}
+              disabled={
+                Number(indexToHandle) > list.current.toArray().length - 1 ||
+                Number(indexToHandle) < 0 ||
+                !indexToHandle.length ||
+                !valueToHandle.length ||
+                (operationToRender !== 'addWithIndex' && !!operationToRender)
+              }
               onClick={() => setOperationToRender('addWithIndex')}
+              isLoader={operationToRender === 'addWithIndex'}
             />
             <Button
               text={'Удалить по индексу'}
               extraClass={'button-style-long'}
-              disabled={Number(indexToHandle) > list.current.toArray().length - 1 || Number(indexToHandle) < 0 || !indexToHandle.length}
+              disabled={
+                Number(indexToHandle) > list.current.toArray().length - 1 || Number(indexToHandle) < 0 || !indexToHandle.length || (operationToRender !== 'deleteWithIndex' && !!operationToRender)
+              }
               onClick={() => setOperationToRender('deleteWithIndex')}
+              isLoader={operationToRender === 'deleteWithIndex'}
             />
           </div>
         </div>
@@ -155,7 +171,13 @@ export const ListPage: React.FC = () => {
             return (
               <div className={`${styles.countedCircleWithUnderText}`} key={key}>
                 <div className={`${styles.countedCircle}`}>
-                  <Circle letter={String(elem._value)} head={key === 0 ? 'head' : ' '} tail={key === array.length - 1 ? 'tail' : ' '} index={key} state={ElementStates.Default} />
+                  <Circle
+                    letter={String(elem._value)}
+                    head={calculateElementHead(key, stagesToRender[renderingStage])}
+                    tail={calculateElementTail(key, stagesToRender[renderingStage])}
+                    index={key}
+                    state={calculateElementState(key, stagesToRender[renderingStage])}
+                  />
                   {key < array.length - 1 ? <ArrowIcon /> : null}
                 </div>
               </div>

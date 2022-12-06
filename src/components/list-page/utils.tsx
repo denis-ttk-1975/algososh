@@ -1,5 +1,7 @@
 import { LinkedList } from './linked-list';
 import { TStages } from './list-page';
+import { ElementStates } from '../../types/element-states';
+import { Circle } from '../ui/circle/circle';
 
 export function addFirst(value: string, list: LinkedList<string>): TStages[] {
   const bulletArray: TStages[] = [];
@@ -64,11 +66,13 @@ export function deleteFirst(list: LinkedList<string>): TStages[] {
 export function deleteLast(list: LinkedList<string>): TStages[] {
   const bulletArray: TStages[] = [];
 
+  const lastIndex = list.toArray().length - 1;
+
   const elementToDelete = list.deleteLast()?._value;
 
   list.append('');
 
-  bulletArray.push({ index: 0, value: elementToDelete, stage: list.toArray(), operation: 'delete' });
+  bulletArray.push({ index: lastIndex, value: elementToDelete, stage: list.toArray(), operation: 'delete' });
 
   list.deleteLast();
 
@@ -115,4 +119,38 @@ export function deleteWithIndex(index: number, list: LinkedList<string>): TStage
   });
 
   return bulletArray;
+}
+
+export function calculateElementState(index: number, stage: TStages) {
+  if (!stage.operation || !stage.index) {
+    return ElementStates.Default;
+  }
+  if (index < stage.index && !!stage.value) {
+    return ElementStates.Changing;
+  }
+  if (index === stage.index && !stage.value) {
+    return ElementStates.Modified;
+  }
+  return ElementStates.Default;
+}
+
+export function calculateElementHead(index: number, stage: TStages) {
+  if (stage.operation === 'add' && stage.value && index === stage.index) {
+    return <Circle letter={stage.value} state={ElementStates.Changing} isSmall={true} />;
+  }
+  if (!index) {
+    return 'head';
+  }
+
+  return '';
+}
+export function calculateElementTail(index: number, stage: TStages) {
+  if (stage.operation === 'delete' && stage.value && index === stage.index) {
+    return <Circle letter={stage.value} state={ElementStates.Changing} isSmall={true} />;
+  }
+  if (index === stage.stage.length - 1) {
+    return 'tail';
+  }
+
+  return '';
 }
