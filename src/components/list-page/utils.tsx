@@ -17,6 +17,7 @@ export function addFirst(value: string, list: LinkedList<string>): TStages[] {
   });
 
   bulletArray.push({
+    index: 0,
     stage: list.toArray(),
   });
 
@@ -39,6 +40,7 @@ export function addLast(value: string, list: LinkedList<string>): TStages[] {
   });
 
   bulletArray.push({
+    index: lastIndex,
     stage: list.toArray(),
   });
 
@@ -96,9 +98,7 @@ export function addWithIndex(index: number, value: string, list: LinkedList<stri
     operation: 'add',
   });
 
-  bulletArray.push({
-    stage: list.toArray(),
-  });
+  bulletArray.push({ index: index, stage: list.toArray() });
 
   return bulletArray;
 }

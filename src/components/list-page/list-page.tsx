@@ -4,7 +4,6 @@ import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 import { ArrowIcon } from './../ui/icons/arrow-icon';
-import { ElementStates } from '../../types/element-states';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
@@ -77,19 +76,21 @@ export const ListPage: React.FC = () => {
         setStagesToRender(temporalArray);
         setRenderingStage(0);
         intervalAnimationRef.current = setInterval(() => {
-          if (renderingStage === stagesToRender.length - 1) {
-            if (!!intervalAnimationRef.current) {
-              clearInterval(intervalAnimationRef.current);
-            }
-            setValueForHandle('');
-            setIndexForHandle('');
-            setStagesToRender([{ stage: list.current.toArray() }]);
+          setRenderingStage((renderingStage) => {
+            if (renderingStage === stagesToRender.length - 1) {
+              if (!!intervalAnimationRef.current) {
+                clearInterval(intervalAnimationRef.current);
+              }
+              setValueForHandle('');
+              setIndexForHandle('');
+              setStagesToRender([{ stage: list.current.toArray() }]);
 
-            setOperationToRender(null);
-            setRenderingStage(0);
-            return;
-          }
-          setRenderingStage(renderingStage + 1);
+              setOperationToRender(null);
+
+              return 0;
+            }
+            return renderingStage + 1;
+          });
         }, DELAY_IN_MS);
       }
     }
@@ -102,8 +103,6 @@ export const ListPage: React.FC = () => {
   const handleChangeIndex = (event: ChangeEvent<HTMLInputElement>) => {
     setIndexForHandle(event.target.value);
   };
-
-  const handleAnimation = () => {};
 
   return (
     <SolutionLayout title='Связный список'>
