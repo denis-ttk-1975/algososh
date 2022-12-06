@@ -41,7 +41,7 @@ export class LinkedList<T> {
     return this;
   }
 
-  deleteFirst() {
+  deleteFirst(): LinkedListNode<T> | null {
     if (!this.head) {
       return null;
     }
@@ -82,12 +82,66 @@ export class LinkedList<T> {
     return nodeToDelete;
   }
 
-  addIndex(index: number): LinkedListNode<T> | null {
-    return null;
+  addIndex(index: number, value: T) {
+    const node = new LinkedListNode(value);
+    if (!this.head || !this.tail) {
+      this.head = node;
+      this.tail = node;
+      return this;
+    }
+    if (index === 0) {
+      this.prepend(value);
+      return this;
+    }
+
+    let temporalNode: LinkedListNode<T> | null = this.head;
+    for (let i = 0; i < index - 1; i++) {
+      if (!!temporalNode.next) {
+        temporalNode = temporalNode.next;
+      } else {
+        alert('Такого элемента не существует');
+        return null;
+      }
+    }
+    node.next = temporalNode.next;
+    temporalNode.next = node;
+
+    return this;
   }
 
-  deleteIndex(index: number): LinkedListNode<T> | null {
-    return null;
+  deleteIndex(index: number) {
+    if (!this.tail) {
+      return null;
+    }
+    let nodeToDelete;
+
+    if (index === 0) {
+      nodeToDelete = this.deleteFirst();
+      return nodeToDelete;
+    }
+
+    let temporalNode: LinkedListNode<T> | null = this.head;
+
+    for (let i = 0; i < index - 1; i++) {
+      if (!!temporalNode?.next) {
+        temporalNode = temporalNode.next;
+      } else {
+        alert('Такого элемента не существует');
+        return null;
+      }
+    }
+
+    if (!temporalNode?.next?.next) {
+      nodeToDelete = this.deleteLast();
+      return nodeToDelete;
+    }
+
+    nodeToDelete = temporalNode?.next;
+    if (temporalNode?.next?.next) {
+      temporalNode.next = temporalNode.next.next;
+    }
+
+    return nodeToDelete;
   }
 
   toArray() {

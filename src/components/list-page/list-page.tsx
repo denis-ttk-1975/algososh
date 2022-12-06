@@ -12,7 +12,7 @@ import { addFirst, addLast, deleteFirst, deleteLast, addWithIndex, deleteWithInd
 import styles from './list-page.module.css';
 import './list-page.css';
 
-const listForFirstRender = ['3', '8', '19', '75', '7', '3', '2007', '13'];
+const listForFirstRender = ['3', '8', '19', '75', '7', '3', '2007'];
 
 export type TStages = {
   stage: LinkedListNode<string>[];
@@ -52,10 +52,10 @@ export const ListPage: React.FC = () => {
           temporalArray = deleteLast(list.current);
           break;
         case 'addWithIndex':
-          temporalArray = addFirst(valueToHandle, list.current);
+          temporalArray = addWithIndex(Number(indexToHandle), valueToHandle, list.current);
           break;
         case 'deleteWithIndex':
-          temporalArray = addLast(valueToHandle, list.current);
+          temporalArray = deleteWithIndex(Number(indexToHandle), list.current);
           break;
       }
       if (temporalArray.length > 1) {
@@ -88,13 +88,13 @@ export const ListPage: React.FC = () => {
             <Button
               text={'Добавить по индексу'}
               extraClass={'button-style-long'}
-              disabled={Number(indexToHandle) > 3 || Number(indexToHandle) < 0 || !indexToHandle.length || !valueToHandle.length}
+              disabled={Number(indexToHandle) > list.current.toArray().length - 1 || Number(indexToHandle) < 0 || !indexToHandle.length || !valueToHandle.length}
               onClick={() => setOperationToRender('addWithIndex')}
             />
             <Button
               text={'Удалить по индексу'}
               extraClass={'button-style-long'}
-              disabled={Number(indexToHandle) > 3 || Number(indexToHandle) < 0 || !indexToHandle.length || !valueToHandle.length}
+              disabled={Number(indexToHandle) > list.current.toArray().length - 1 || Number(indexToHandle) < 0 || !indexToHandle.length}
               onClick={() => setOperationToRender('deleteWithIndex')}
             />
           </div>

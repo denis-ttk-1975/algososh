@@ -77,15 +77,15 @@ export function deleteLast(list: LinkedList<string>): TStages[] {
   return bulletArray;
 }
 
-export function addWithIndex(value: string, list: LinkedList<string>): TStages[] {
+export function addWithIndex(index: number, value: string, list: LinkedList<string>): TStages[] {
   const bulletArray: TStages[] = [];
 
-  bulletArray.push({ index: 0, value: value, stage: list.toArray() });
+  bulletArray.push({ index: index, value: value, stage: list.toArray() });
 
-  list.prepend(value);
+  list.addIndex(index, value);
 
   bulletArray.push({
-    index: 0,
+    index: index,
     stage: list.toArray(),
   });
 
@@ -96,17 +96,16 @@ export function addWithIndex(value: string, list: LinkedList<string>): TStages[]
   return bulletArray;
 }
 
-export function deleteWithIndex(value: string, list: LinkedList<string>): TStages[] {
+export function deleteWithIndex(index: number, list: LinkedList<string>): TStages[] {
   const bulletArray: TStages[] = [];
 
-  bulletArray.push({ index: 0, value: value, stage: list.toArray() });
+  const elementToDelete = list.deleteIndex(index)?._value;
 
-  list.prepend(value);
+  list.addIndex(index, ' ');
 
-  bulletArray.push({
-    index: 0,
-    stage: list.toArray(),
-  });
+  bulletArray.push({ index: index, value: elementToDelete, stage: list.toArray() });
+
+  list.deleteIndex(index);
 
   bulletArray.push({
     stage: list.toArray(),
