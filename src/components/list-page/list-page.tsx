@@ -6,23 +6,36 @@ import { Button } from '../ui/button/button';
 import { ArrowIcon } from './../ui/icons/arrow-icon';
 import { ElementStates } from '../../types/element-states';
 
+import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
+
 import { LinkedList, LinkedListNode } from './linked-list';
 import { addFirst, addLast, deleteFirst, deleteLast, addWithIndex, deleteWithIndex } from './utils';
 
 import styles from './list-page.module.css';
 import './list-page.css';
 
-const listForFirstRender = ['3', '8', '19', '75', '7', '3', '2007'];
+const listForFirstRender = ['3', '8', '19', '75', '7', '03', '2007'];
 
 export type TStages = {
   stage: LinkedListNode<string>[];
   index?: number;
   value?: string;
+  operation?: string;
 };
 
 export const ListPage: React.FC = () => {
   const list = useRef(new LinkedList(listForFirstRender));
-  console.log('list: ', list);
+  const intervalAnimationRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // clear timer Interval when unmounted to prevent memory leak
+
+  useEffect(() => {
+    return () => {
+      if (intervalAnimationRef.current) {
+        clearInterval(intervalAnimationRef.current);
+      }
+    };
+  }, []);
 
   const [valueToHandle, setValueForHandle] = useState('');
   const [indexToHandle, setIndexForHandle] = useState('');
@@ -38,6 +51,7 @@ export const ListPage: React.FC = () => {
       setOperationToRender(null);
     } else {
       let temporalArray: TStages[] = [];
+
       switch (operationToRender) {
         case 'addFirst':
           temporalArray = addFirst(valueToHandle, list.current);
@@ -58,11 +72,46 @@ export const ListPage: React.FC = () => {
           temporalArray = deleteWithIndex(Number(indexToHandle), list.current);
           break;
       }
+
       if (temporalArray.length > 1) {
         setStagesToRender(temporalArray);
+        setRenderingStage(0);
+        intervalAnimationRef.current = setInterval(() => {
+          if (renderingStage === stagesToRender.length - 1) {
+            if (!!intervalAnimationRef.current) {
+              clearInterval(intervalAnimationRef.current);
+            }
+            setValueForHandle('');
+            setIndexForHandle('');
+            setStagesToRender([{ stage: list.current.toArray() }]);
+
+            setOperationToRender(null);
+            setRenderingStage(0);
+            return;
+          }
+          setRenderingStage(renderingStage + 1);
+        }, DELAY_IN_MS);
       }
     }
   }, [operationToRender]);
+
+  // useEffect(() => {
+  //   intervalAnimationRef.current = setInterval(() => {
+  //     if (renderingStage === stagesToRender.length - 1) {
+  //       if (!!intervalAnimationRef.current) {
+  //         clearInterval(intervalAnimationRef.current);
+  //       }
+  //       setValueForHandle('');
+  //       setIndexForHandle('');
+  //       setStagesToRender([stagesToRender[stagesToRender.length - 1]]);
+
+  //       setOperationToRender(null);
+  //       setRenderingStage(0);
+  //       return;
+  //     }
+  //     setRenderingStage(renderingStage + 1);
+  //   }, 5000);
+  // }, [stagesToRender]);
 
   const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
     setValueForHandle(event.target.value);
@@ -72,12 +121,14 @@ export const ListPage: React.FC = () => {
     setIndexForHandle(event.target.value);
   };
 
+  const handleAnimation = () => {};
+
   return (
     <SolutionLayout title='Связный список'>
       <div className={`${styles.listContentArea}`}>
         <div className={`${styles.verticalInputForm}`}>
           <div className={`${styles.inputArea}`}>
-            <Input isLimitText={true} type={'number'} max={4} extraClass={'input-style'} onChange={handleChangeValue} value={valueToHandle} />
+            <Input isLimitText={true} type={'number'} max={9999} extraClass={'input-style'} onChange={handleChangeValue} value={valueToHandle} />
             <Button text={'Добавить в head'} extraClass={'button-style-middle'} disabled={!valueToHandle.length} onClick={() => setOperationToRender('addFirst')} />
             <Button text={'Добавить в tail'} extraClass={'button-style-middle'} disabled={!valueToHandle.length} onClick={() => setOperationToRender('addLast')} />
             <Button text={'Удалить из head'} extraClass={'button-style-middle'} onClick={() => setOperationToRender('deleteFirst')} />

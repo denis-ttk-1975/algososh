@@ -4,13 +4,14 @@ import { TStages } from './list-page';
 export function addFirst(value: string, list: LinkedList<string>): TStages[] {
   const bulletArray: TStages[] = [];
 
-  bulletArray.push({ index: 0, value: value, stage: list.toArray() });
+  bulletArray.push({ index: 0, value: value, stage: list.toArray(), operation: 'add' });
 
   list.prepend(value);
 
   bulletArray.push({
     index: 0,
     stage: list.toArray(),
+    operation: 'add',
   });
 
   bulletArray.push({
@@ -25,13 +26,14 @@ export function addLast(value: string, list: LinkedList<string>): TStages[] {
 
   const lastIndex = list.toArray().length - 1;
 
-  bulletArray.push({ index: lastIndex, value: value, stage: list.toArray() });
+  bulletArray.push({ index: lastIndex, value: value, stage: list.toArray(), operation: 'add' });
 
   list.append(value);
 
   bulletArray.push({
     index: lastIndex,
     stage: list.toArray(),
+    operation: 'add',
   });
 
   bulletArray.push({
@@ -48,7 +50,7 @@ export function deleteFirst(list: LinkedList<string>): TStages[] {
 
   list.prepend('');
 
-  bulletArray.push({ index: 0, value: elementToDelete, stage: list.toArray() });
+  bulletArray.push({ index: 0, value: elementToDelete, stage: list.toArray(), operation: 'delete' });
 
   list.deleteFirst();
 
@@ -66,7 +68,7 @@ export function deleteLast(list: LinkedList<string>): TStages[] {
 
   list.append('');
 
-  bulletArray.push({ index: 0, value: elementToDelete, stage: list.toArray() });
+  bulletArray.push({ index: 0, value: elementToDelete, stage: list.toArray(), operation: 'delete' });
 
   list.deleteLast();
 
@@ -80,13 +82,14 @@ export function deleteLast(list: LinkedList<string>): TStages[] {
 export function addWithIndex(index: number, value: string, list: LinkedList<string>): TStages[] {
   const bulletArray: TStages[] = [];
 
-  bulletArray.push({ index: index, value: value, stage: list.toArray() });
+  bulletArray.push({ index: index, value: value, stage: list.toArray(), operation: 'add' });
 
   list.addIndex(index, value);
 
   bulletArray.push({
     index: index,
     stage: list.toArray(),
+    operation: 'add',
   });
 
   bulletArray.push({
@@ -103,7 +106,7 @@ export function deleteWithIndex(index: number, list: LinkedList<string>): TStage
 
   list.addIndex(index, ' ');
 
-  bulletArray.push({ index: index, value: elementToDelete, stage: list.toArray() });
+  bulletArray.push({ index: index, value: elementToDelete, stage: list.toArray(), operation: 'delete' });
 
   list.deleteIndex(index);
 
