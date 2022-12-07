@@ -7,13 +7,16 @@ import { ElementStates } from '../../types/element-states';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
+import { Stack } from './stack-class';
+
 import styles from './stack-page.module.css';
 import './stack-page.css';
 
 export const StackPage: React.FC = () => {
+  const stackForRender = useRef(new Stack());
   const [word, setWord] = useState<string>('');
 
-  const [stackForRender, setStackForRender] = useState<string[]>([]);
+  // const [stackForRender, setStackForRender] = useState<string[]>([]);
 
   const [animation, setAnimation] = useState(false);
 
@@ -40,9 +43,9 @@ export const StackPage: React.FC = () => {
   };
 
   const handleAddClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (stackForRender.length < 21) {
+    if (stackForRender.current.stack.length < 21) {
       if (word) {
-        setStackForRender([...stackForRender, word]);
+        stackForRender.current.add(word);
         setWord('');
         setAnimation(true);
       }
@@ -50,18 +53,16 @@ export const StackPage: React.FC = () => {
   };
 
   const handleDeleteClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (stackForRender.length <= 1) {
-      setStackForRender([]);
+    if (stackForRender.current.stack.length <= 1) {
+      stackForRender.current.clear();
     } else {
-      let arrayWithoutLastElement = [...stackForRender];
-      arrayWithoutLastElement.pop();
-      setStackForRender(arrayWithoutLastElement);
+      stackForRender.current.delete();
       setAnimation(true);
     }
   };
 
   const handlePurgeClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setStackForRender([]);
+    stackForRender.current.clear();
   };
 
   return (
@@ -70,12 +71,12 @@ export const StackPage: React.FC = () => {
         <div className={`${styles.inputArea}`}>
           <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} />
           <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} disabled={!word} />
-          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={!stackForRender.length} />
+          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={!stackForRender.current.stack.length} />
 
-          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={!stackForRender.length} />
+          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={!stackForRender.current.stack.length} />
         </div>
         <div className={`${styles.circleArea}`}>
-          {stackForRender.map((elem, key, array) => {
+          {stackForRender.current.stack.map((elem, key, array) => {
             return (
               <div className={`${styles.countedCircle}`} key={key}>
                 <Circle
