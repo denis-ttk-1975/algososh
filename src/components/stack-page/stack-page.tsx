@@ -53,8 +53,9 @@ export const StackPage: React.FC = () => {
   };
 
   const handleDeleteClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (stackForRender.current.stack.length <= 1) {
+    if (stackForRender.current.stack.length === 1) {
       stackForRender.current.clear();
+      setAnimation(true);
     } else {
       stackForRender.current.delete();
       setAnimation(true);
@@ -63,6 +64,7 @@ export const StackPage: React.FC = () => {
 
   const handlePurgeClick = (event: MouseEvent<HTMLButtonElement>) => {
     stackForRender.current.clear();
+    setAnimation(true);
   };
 
   return (

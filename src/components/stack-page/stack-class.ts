@@ -17,5 +17,6 @@ export class Stack {
 
   clear() {
     this.stack = [];
+    return this;
   }
 }
