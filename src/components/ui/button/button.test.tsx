@@ -22,3 +22,19 @@ it('компонент Button c пропсом isLoader', () => {
   const element = renderer.create(<Button isLoader={true} />).toJSON();
   expect(element).toMatchSnapshot();
 });
+
+it('Нажатие на кнопку вызывает корректный коллбэк', () => {
+  window.alert = jest.fn();
+
+  // Рендерим компонент
+  render(<Button text='Callback ignition test' onClick={() => alert('Button pressed')} />);
+
+  // Находим элемент ссылки
+  const button = screen.getByText('Callback ignition test');
+
+  // Имитируем нажатие на ссылку
+  fireEvent.click(button);
+
+  // Проверяем, что alert сработал с правильным текстом предупреждения
+  expect(window.alert).toHaveBeenCalledWith('Button pressed');
+});
