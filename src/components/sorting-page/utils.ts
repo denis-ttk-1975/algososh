@@ -56,6 +56,7 @@ export function sortingSelectionAscending(result: Array<{ data: number; type: El
           })
         );
   }
+  return result;
 }
 
 export function sortingSelectionDescending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {
@@ -115,6 +116,7 @@ export function sortingSelectionDescending(result: Array<{ data: number; type: E
           })
         );
   }
+  return result;
 }
 
 export function sortingBubbleAscending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {
@@ -122,9 +124,9 @@ export function sortingBubbleAscending(result: Array<{ data: number; type: Eleme
 
   let tempArray = [...mockArray];
 
-  result[1] = tempArray.map((elem, key) => {
-    return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
-  });
+  // result[1] = tempArray.map((elem, key) => {
+  //   return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
+  // });
 
   for (let j = wholeAmount - 1; j > 0; j--) {
     for (let i = 0; i < j; i++) {
@@ -155,6 +157,7 @@ export function sortingBubbleAscending(result: Array<{ data: number; type: Eleme
       return { data: elem, type: ElementStates.Modified };
     })
   );
+  return result;
 }
 
 export function sortingBubbleDescending(result: Array<{ data: number; type: ElementStates }[]>, mockArray: number[]) {
@@ -162,9 +165,9 @@ export function sortingBubbleDescending(result: Array<{ data: number; type: Elem
 
   let tempArray = [...mockArray];
 
-  result[1] = tempArray.map((elem, key) => {
-    return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
-  });
+  // result[1] = tempArray.map((elem, key) => {
+  //   return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
+  // });
 
   for (let j = wholeAmount - 1; j > 0; j--) {
     for (let i = 0; i < j; i++) {
@@ -195,4 +198,5 @@ export function sortingBubbleDescending(result: Array<{ data: number; type: Elem
       return { data: elem, type: ElementStates.Modified };
     })
   );
+  return result;
 }

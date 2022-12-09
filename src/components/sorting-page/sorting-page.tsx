@@ -61,9 +61,9 @@ export const SortingPage: React.FC = () => {
 
   const handleStartSortingAscending = (event: MouseEvent<HTMLButtonElement>) => {
     if (method === 'selection') {
-      sortingSelectionAscending(result, mockArray);
+      result = sortingSelectionAscending(result, mockArray);
     } else {
-      sortingBubbleAscending(result, mockArray);
+      result = sortingBubbleAscending(result, mockArray);
     }
 
     setDirection('Ascending');
@@ -71,9 +71,9 @@ export const SortingPage: React.FC = () => {
 
   const handleStartSortingDescending = (event: MouseEvent<HTMLButtonElement>) => {
     if (method === 'selection') {
-      sortingSelectionDescending(result, mockArray);
+      result = sortingSelectionDescending(result, mockArray);
     } else {
-      sortingBubbleDescending(result, mockArray);
+      result = sortingBubbleDescending(result, mockArray);
     }
     setDirection('Descending');
   };

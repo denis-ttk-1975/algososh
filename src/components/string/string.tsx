@@ -80,10 +80,10 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title='Строка'>
       <div className={`${styles.stringContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} />
-          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isStringTurning} />
+          <Input isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} data-testid='word' />
+          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isStringTurning} data-testid='button' />
         </div>
-        <div className={`${styles.circleArea}`}>
+        <div className={`${styles.circleArea}`} data-testid='result'>
           {!!turningArray.length
             ? turningArray.map((elem, index) => {
                 return <Circle letter={elem.element} key={index} state={elem.type} />;
