@@ -72,8 +72,10 @@ export const StringComponent: React.FC = () => {
       return { element: elem, type: ElementStates.Default };
     });
     setTurningArray(() => [...arrayFromString]);
-    // debugger;
-    changeTwoElements([...arrayFromString], start, end);
+    timerRef.current = setTimeout(() => {
+      changeTwoElements([...arrayFromString], start, end);
+    }, DELAY_IN_MS);
+    // changeTwoElements([...arrayFromString], start, end);
     setStringTurning(false);
   };
 
