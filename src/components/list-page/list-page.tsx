@@ -109,13 +109,14 @@ export const ListPage: React.FC = () => {
       <div className={`${styles.listContentArea}`}>
         <div className={`${styles.verticalInputForm}`}>
           <div className={`${styles.inputArea}`}>
-            <Input isLimitText={true} type={'number'} max={9999} extraClass={'input-style'} onChange={handleChangeValue} value={valueToHandle} />
+            <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChangeValue} value={valueToHandle} data-testid='value-input' />
             <Button
               text={'Добавить в head'}
               extraClass={'button-style-middle'}
               disabled={!valueToHandle.length || (operationToRender !== 'addFirst' && !!operationToRender)}
               onClick={() => setOperationToRender('addFirst')}
               isLoader={operationToRender === 'addFirst'}
+              data-testid='addFirst'
             />
             <Button
               text={'Добавить в tail'}
@@ -123,6 +124,7 @@ export const ListPage: React.FC = () => {
               disabled={!valueToHandle.length || (operationToRender !== 'addLast' && !!operationToRender)}
               onClick={() => setOperationToRender('addLast')}
               isLoader={operationToRender === 'addLast'}
+              data-testid='addLast'
             />
             <Button
               text={'Удалить из head'}
@@ -130,6 +132,7 @@ export const ListPage: React.FC = () => {
               disabled={operationToRender !== 'deleteFirst' && !!operationToRender}
               onClick={() => setOperationToRender('deleteFirst')}
               isLoader={operationToRender === 'deleteFirst'}
+              data-testid='deleteFirst'
             />
             <Button
               text={'Удалить из tail'}
@@ -137,10 +140,11 @@ export const ListPage: React.FC = () => {
               disabled={operationToRender !== 'deleteLast' && !!operationToRender}
               onClick={() => setOperationToRender('deleteLast')}
               isLoader={operationToRender === 'deleteLast'}
+              data-testid='deleteLast'
             />
           </div>
           <div className={`${styles.inputArea}`}>
-            <Input placeholder={'Введите индекс'} isLimitText={false} type={'number'} extraClass={'input-style'} onChange={handleChangeIndex} value={indexToHandle} />
+            <Input placeholder={'Введите индекс'} isLimitText={false} type={'number'} extraClass={'input-style'} onChange={handleChangeIndex} value={indexToHandle} data-testid='index-input' />
             <Button
               text={'Добавить по индексу'}
               extraClass={'button-style-long'}
@@ -153,6 +157,7 @@ export const ListPage: React.FC = () => {
               }
               onClick={() => setOperationToRender('addWithIndex')}
               isLoader={operationToRender === 'addWithIndex'}
+              data-testid='addWithIndex'
             />
             <Button
               text={'Удалить по индексу'}
@@ -162,6 +167,7 @@ export const ListPage: React.FC = () => {
               }
               onClick={() => setOperationToRender('deleteWithIndex')}
               isLoader={operationToRender === 'deleteWithIndex'}
+              data-testid='deleteWithIndex'
             />
           </div>
         </div>
