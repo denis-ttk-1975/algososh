@@ -71,11 +71,11 @@ export const StackPage: React.FC = () => {
     <SolutionLayout title='Стек'>
       <div className={`${styles.stackContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} />
-          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} disabled={!word} />
-          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={!stackForRender.current.stack.length} />
+          <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} data-testid='input' />
+          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} disabled={!word} data-testid='add' />
+          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={!stackForRender.current.stack.length} data-testid='delete' />
 
-          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={!stackForRender.current.stack.length} />
+          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={!stackForRender.current.stack.length} data-testid='purge' />
         </div>
         <div className={`${styles.circleArea}`}>
           {stackForRender.current.stack.map((elem, key, array) => {

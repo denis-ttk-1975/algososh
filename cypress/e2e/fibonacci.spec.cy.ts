@@ -1,4 +1,4 @@
-describe('String component tests', function () {
+describe('Fibonacci component tests', function () {
   beforeEach(() => {
     cy.visit('http://localhost:3000/fibonacci');
   });
