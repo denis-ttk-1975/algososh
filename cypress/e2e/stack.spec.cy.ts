@@ -36,7 +36,6 @@ describe('Stack component tests', function () {
     cy.get('[class^="circle_circle"]').eq(0).contains(5);
     cy.get('[data-testid=input]').type('7');
     cy.get('[data-testid=add]').click();
-    // cy.tick(1000);
 
     cy.get('[class^="circle_circle"]').should('have.length', 2);
     cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
