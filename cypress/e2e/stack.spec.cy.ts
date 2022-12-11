@@ -18,10 +18,16 @@ describe('Stack component tests', function () {
   });
 
   it('click button and string unwrapping correсtly', () => {
-    cy.get('[data-testid=input]').type('5');
     cy.clock();
+    cy.get('[data-testid=input]').type('5');
+
     cy.get('[data-testid=add]').click();
-    cy.tick(100);
+    cy.get('[class^="circle_circle"]').should('have.length', 1);
+    cy.get('[class^="circle_circle"]').each((elem, index) => {
+      cy.wrap(elem).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+    });
+    cy.get('[class^="circle_circle"]').eq(0).contains(5);
+    cy.tick(500);
 
     cy.get('[class^="circle_circle"]').should('have.length', 1);
     cy.get('[class^="circle_circle"]').each((elem, index) => {
@@ -30,12 +36,11 @@ describe('Stack component tests', function () {
     cy.get('[class^="circle_circle"]').eq(0).contains(5);
     cy.get('[data-testid=input]').type('7');
     cy.get('[data-testid=add]').click();
-    cy.tick(1000);
+    // cy.tick(1000);
 
     cy.get('[class^="circle_circle"]').should('have.length', 2);
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
-      cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-    });
+    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+    cy.get('[class^="circle_circle"]').eq(1).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
     cy.get('[class^="circle_circle"]').eq(0).contains(5);
     cy.get('[class^="circle_circle"]').eq(1).contains(7);
 
