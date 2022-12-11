@@ -61,11 +61,11 @@ export const QueuePage: React.FC = () => {
     <SolutionLayout title='Очередь'>
       <div className={`${styles.queueContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} />
-          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} disabled={!word} />
-          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={queueForRender.current.tail === null} />
+          <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} data-testid='input' />
+          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} disabled={!word} data-testid='add' />
+          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={queueForRender.current.tail === null} data-testid='delete' />
 
-          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={queueForRender.current.tail === null} />
+          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={queueForRender.current.tail === null} data-testid='purge' />
         </div>
         <div className={`${styles.circleArea}`}>
           {queueForRender.current.stack.map((elem, key, array) => {
