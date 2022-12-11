@@ -49,5 +49,7 @@ describe('String component tests', function () {
       if (index === 1) cy.wrap(elem).contains('2') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(127, 224, 81)');
       if (index === 2) cy.wrap(elem).contains('1') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(127, 224, 81)');
     });
+
+    cy.clock().invoke('restore');
   });
 });

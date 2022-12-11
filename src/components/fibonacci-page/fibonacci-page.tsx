@@ -54,8 +54,8 @@ export const FibonacciPage: React.FC = () => {
     <SolutionLayout title='Последовательность Фибоначчи'>
       <div className={`${styles.fibonacciContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} type={'number'} min={1} max={19} extraClass={'input-style'} onChange={handleChange} />
-          <Button text={'Рассчитать'} extraClass={'button-style'} onClick={handleClick} isLoader={isRowRendering} />
+          <Input isLimitText={true} type={'number'} min={1} max={19} extraClass={'input-style'} onChange={handleChange} data-testid='input' />
+          <Button text={'Рассчитать'} extraClass={'button-style'} onClick={handleClick} isLoader={isRowRendering} disabled={!amount} data-testid='button' />
         </div>
         <div className={`${styles.circleArea}`}>
           {fibonacciRow.map((elem, key) => {
