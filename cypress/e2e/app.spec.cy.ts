@@ -6,11 +6,11 @@ describe('empty spec', () => {
 
 describe('spec visit', () => {
   it('Does not do much!', () => {
-    expect(true).to.equal(true);
+    expect(true).equal(true);
   });
 });
 
-describe('service is available', function () {
+describe('Site MBOU ALGOSOSH is available', function () {
   it('should be available on localhost:3000', function () {
     cy.visit('http://localhost:3000');
     cy.contains('МБОУ АЛГОСОШ');
