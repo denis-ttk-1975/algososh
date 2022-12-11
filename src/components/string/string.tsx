@@ -72,6 +72,7 @@ export const StringComponent: React.FC = () => {
       return { element: elem, type: ElementStates.Default };
     });
     setTurningArray(() => [...arrayFromString]);
+    // debugger;
     changeTwoElements([...arrayFromString], start, end);
     setStringTurning(false);
   };
@@ -81,12 +82,12 @@ export const StringComponent: React.FC = () => {
       <div className={`${styles.stringContentArea}`}>
         <div className={`${styles.inputArea}`}>
           <Input isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} data-testid='word' />
-          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isStringTurning} data-testid='button' />
+          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isStringTurning} data-testid='button' disabled={!word} />
         </div>
         <div className={`${styles.circleArea}`} data-testid='result'>
           {!!turningArray.length
             ? turningArray.map((elem, index) => {
-                return <Circle letter={elem.element} key={index} state={elem.type} />;
+                return <Circle letter={elem.element} key={index} state={elem.type} data-testid='circle' />;
               })
             : null}
         </div>
