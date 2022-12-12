@@ -3,7 +3,7 @@ describe('Fibonacci component tests', function () {
     cy.visit('http://localhost:3000/fibonacci');
   });
 
-  it('should open string page', () => {
+  it('should open fibonacci page', () => {
     cy.contains('Фибоначчи');
   });
 
@@ -17,7 +17,7 @@ describe('Fibonacci component tests', function () {
     cy.get('[data-testid=button]').should('be.enabled');
   });
 
-  it('click button and string unwrapping correсtly', () => {
+  it('click button and fibonacci row rendered correсtly', () => {
     cy.get('[data-testid=input]').type('5');
     cy.clock();
     cy.get('[data-testid=button]').click();
