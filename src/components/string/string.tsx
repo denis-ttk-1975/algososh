@@ -12,6 +12,21 @@ import './string.css';
 
 let arrayFromString: { element: string; type: ElementStates }[] = [];
 
+export const twoElementsOfArrayReversion = (startArray: { element: string; type: ElementStates }[], firstElem: number, lastElem: number) => {
+  if (!firstElem) {
+    startArray[firstElem] = { ...startArray[firstElem], type: ElementStates.Changing };
+    startArray[lastElem] = { ...startArray[lastElem], type: ElementStates.Changing };
+  } else {
+    startArray[firstElem] = { ...startArray[firstElem], type: ElementStates.Changing };
+    startArray[lastElem] = { ...startArray[lastElem], type: ElementStates.Changing };
+    let temporalValue = startArray[firstElem - 1].element;
+    startArray[firstElem - 1] = { element: startArray[lastElem + 1].element, type: ElementStates.Modified };
+    startArray[lastElem + 1] = { element: temporalValue, type: ElementStates.Modified };
+  }
+
+  return startArray;
+};
+
 export const StringComponent: React.FC = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -33,17 +48,9 @@ export const StringComponent: React.FC = () => {
     setWord(event.target.value);
   };
 
-  const changeTwoElements = (arrayArg: typeof arrayFromString, firstIndex: number, secondIndex: number) => {
-    if (!firstIndex) {
-      arrayArg[firstIndex] = { ...arrayArg[firstIndex], type: ElementStates.Changing };
-      arrayArg[secondIndex] = { ...arrayArg[secondIndex], type: ElementStates.Changing };
-    } else {
-      arrayArg[firstIndex] = { ...arrayArg[firstIndex], type: ElementStates.Changing };
-      arrayArg[secondIndex] = { ...arrayArg[secondIndex], type: ElementStates.Changing };
-      let temporalValue = arrayArg[firstIndex - 1].element;
-      arrayArg[firstIndex - 1] = { element: arrayArg[secondIndex + 1].element, type: ElementStates.Modified };
-      arrayArg[secondIndex + 1] = { element: temporalValue, type: ElementStates.Modified };
-    }
+  const arrayReversion = (arrayArg: typeof arrayFromString, firstIndex: number, secondIndex: number) => {
+    arrayArg = twoElementsOfArrayReversion(arrayArg, firstIndex, secondIndex);
+
     setTurningArray(() => [...arrayArg]);
 
     secondIndex = secondIndex - 1;
@@ -51,7 +58,7 @@ export const StringComponent: React.FC = () => {
 
     if (secondIndex + 1 >= firstIndex) {
       timerRef.current = setTimeout(() => {
-        changeTwoElements(arrayArg, firstIndex, secondIndex);
+        arrayReversion(arrayArg, firstIndex, secondIndex);
       }, DELAY_IN_MS);
     } else {
       timerRef.current = setTimeout(() => {
@@ -73,9 +80,9 @@ export const StringComponent: React.FC = () => {
     });
     setTurningArray(() => [...arrayFromString]);
     timerRef.current = setTimeout(() => {
-      changeTwoElements([...arrayFromString], start, end);
+      arrayReversion([...arrayFromString], start, end);
     }, DELAY_IN_MS);
-    // changeTwoElements([...arrayFromString], start, end);
+    // arrayReversion([...arrayFromString], start, end);
     setStringTurning(false);
   };
 
