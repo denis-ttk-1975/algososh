@@ -54,6 +54,11 @@ describe('List component tests', function () {
     cy.get('[data-testid=addLast]').click();
 
     cy.get('[class^="circle_content"]').find('[class*="small"]').eq(0).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('CC');
+    cy.get('[class^="circle_circle"]').each((elem, index) => {
+      if (index < 7) {
+        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+      }
+    });
     cy.get('[class^="circle_circle"]').eq(7).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('2007');
     cy.tick(1005);
     cy.wait(5);
@@ -70,6 +75,11 @@ describe('List component tests', function () {
     cy.get('[data-testid=addWithIndex]').click();
 
     cy.get('[class^="circle_content"]').find('[class*="small"]').eq(0).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('DD');
+    cy.get('[class^="circle_circle"]').each((elem, index) => {
+      if (index < 4) {
+        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+      }
+    });
     cy.get('[class^="circle_circle"]').eq(4).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('75');
     cy.tick(1005);
     cy.wait(5);
@@ -79,94 +89,37 @@ describe('List component tests', function () {
     cy.clock().invoke('restore');
   });
 
-  // it('click button and string unwrapping correсtly', () => {
-  //   cy.clock();
-  //   cy.get('[data-testid=input]').type('A');
+  it('delete first element', () => {
+    cy.clock();
 
-  //   cy.get('[data-testid=add]').click();
-  //   cy.get('[class^="circle_circle"]').should('have.length', 7);
-  //   cy.get('[class^="circle_circle"]').eq(0).contains('A');
-  //   cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-  //   cy.get('[class^="circle_circle"]').each((elem, index) => {
-  //     if (index > 0) {
-  //       cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //       cy.wrap(elem).should('value', '');
-  //     }
-  //   });
-  //   cy.tick(500);
+    cy.get('[data-testid=deleteFirst]').click();
 
-  //   cy.get('[class^="circle_circle"]').should('have.length', 7);
-  //   cy.get('[class^="circle_circle"]').eq(0).contains('A');
-  //   cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //   cy.get('[class^="circle_circle"]').each((elem, index) => {
-  //     if (index > 0) {
-  //       cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //       cy.wrap(elem).should('value', '');
-  //     }
-  //   });
+    cy.get('[class^="circle_content"]').find('[class*="small"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('3');
+    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)').should('value', '');
+    cy.get('[class^="circle_circle"]').eq(2).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('8');
+    cy.tick(1005);
+    cy.wait(5);
+    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('8');
 
-  //   cy.get('[data-testid=input]').type('B');
-  //   cy.get('[data-testid=add]').click();
+    cy.clock().invoke('restore');
+  });
 
-  //   cy.get('[class^="circle_circle"]').should('have.length', 7);
-  //   cy.get('[class^="circle_circle"]').eq(0).contains('A');
-  //   cy.get('[class^="circle_circle"]').eq(1).contains('B');
-  //   cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //   cy.get('[class^="circle_circle"]').eq(1).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-  //   cy.get('[class^="circle_circle"]').each((elem, index) => {
-  //     if (index > 1) {
-  //       cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //       cy.wrap(elem).should('value', '');
-  //     }
-  //   });
+  it('delete last element', () => {
+    cy.clock();
 
-  //   cy.tick(500);
+    cy.get('[data-testid=deleteLast]').click();
 
-  //   cy.get('[class^="circle_circle"]').should('have.length', 7);
-  //   cy.get('[class^="circle_circle"]').eq(0).contains('A');
-  //   cy.get('[class^="circle_circle"]').eq(1).contains('B');
-  //   cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //   cy.get('[class^="circle_circle"]').eq(1).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //   cy.get('[class^="circle_circle"]').each((elem, index) => {
-  //     if (index > 1) {
-  //       cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //       cy.wrap(elem).should('value', '');
-  //     }
-  //   });
+    cy.get('[class^="circle_content"]').find('[class*="small"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('2007');
+    cy.get('[class^="circle_circle"]').each((elem, index) => {
+      if (index < 6) {
+        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+      }
+    });
+    cy.get('[class^="circle_circle"]').eq(6).should('have.css', 'border', '4px solid rgb(0, 50, 255)').should('value', '');
+    cy.tick(1005);
+    cy.wait(5);
+    cy.get('[class^="circle_circle"]').eq(5).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('03');
 
-  //   cy.get('[data-testid=delete]').click();
-  //   cy.get('[class^="circle_circle"]').should('have.length', 7);
-
-  //   cy.get('[class^="circle_circle"]').should('have.length', 7);
-  //   cy.get('[class^="circle_circle"]').eq(0).should('value', '');
-  //   cy.get('[class^="circle_circle"]').eq(1).contains('B');
-  //   cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //   cy.get('[class^="circle_circle"]').eq(1).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-  //   cy.get('[class^="circle_circle"]').each((elem, index) => {
-  //     if (index > 1) {
-  //       cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //       cy.wrap(elem).should('value', '');
-  //     }
-  //   });
-
-  //   cy.tick(500);
-  //   cy.get('[class^="circle_circle"]').each((elem, index) => {
-  //     cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //   });
-
-  //   cy.get('[data-testid=input]').type('C');
-  //   cy.get('[data-testid=add]').click();
-
-  //   cy.get('[class^="circle_circle"]').eq(2).contains('C');
-
-  //   cy.tick(1000);
-  //   cy.get('[data-testid=purge]').click();
-  //   cy.get('[class^="circle_circle"]').should('have.length', 7);
-  //   cy.get('[class^="circle_circle"]').each((elem, index) => {
-  //     cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-  //     cy.wrap(elem).should('value', '');
-  //   });
-
-  //   cy.clock().invoke('restore');
-  // });
+    cy.clock().invoke('restore');
+  });
 });
