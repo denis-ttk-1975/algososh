@@ -28,6 +28,9 @@ describe('List component tests', function () {
 
   it('default list parsing', () => {
     cy.get('[class^="circle_circle"]').should('have.length', 7);
+    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('3');
+    cy.get('[class^="circle_circle"]').eq(3).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('75');
+    cy.get('[class^="circle_circle"]').eq(6).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('2007');
   });
 
   it('add first element', () => {
@@ -42,17 +45,37 @@ describe('List component tests', function () {
     cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('BB');
     cy.get('[class^="circle_circle"]').eq(1).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('3');
 
-    // cy.get(CIRCLE_CIRCLE).each(($div, index) => {
-    //   if (index === 0) cy.wrap($div).should('have.css', 'border', '4px solid rgb(127, 224, 81)').contains('50');
-    // });
-    // //проверка курсора head
-    // cy.get(CIRCLE_CONTENT).each(($div, index) => {
-    //   if (index === 0) {
-    //     cy.wrap($div).first().contains('head');
-    //   }
-    // });
-    // cy.get(CIRCLE_CIRCLE).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-    // cy.get(INPUT__PLACEHOLDER_TEXT).clear();
+    cy.clock().invoke('restore');
+  });
+
+  it('add last element', () => {
+    cy.clock();
+    cy.get('[data-testid=value-input]').type('CC');
+    cy.get('[data-testid=addLast]').click();
+
+    cy.get('[class^="circle_content"]').find('[class*="small"]').eq(0).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('CC');
+    cy.get('[class^="circle_circle"]').eq(7).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('2007');
+    cy.tick(1005);
+    cy.wait(5);
+    cy.get('[class^="circle_circle"]').eq(7).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('CC');
+    cy.get('[class^="circle_circle"]').eq(6).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('2007');
+
+    cy.clock().invoke('restore');
+  });
+
+  it('add third element', () => {
+    cy.clock();
+    cy.get('[data-testid=value-input]').type('DD');
+    cy.get('[data-testid=index-input]').type('3');
+    cy.get('[data-testid=addWithIndex]').click();
+
+    cy.get('[class^="circle_content"]').find('[class*="small"]').eq(0).should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('DD');
+    cy.get('[class^="circle_circle"]').eq(4).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('75');
+    cy.tick(1005);
+    cy.wait(5);
+    cy.get('[class^="circle_circle"]').eq(3).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('DD');
+    cy.get('[class^="circle_circle"]').eq(4).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('75');
+
     cy.clock().invoke('restore');
   });
 
