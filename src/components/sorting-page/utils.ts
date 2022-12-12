@@ -124,10 +124,6 @@ export function sortingBubbleAscending(result: Array<{ data: number; type: Eleme
 
   let tempArray = [...mockArray];
 
-  // result[1] = tempArray.map((elem, key) => {
-  //   return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
-  // });
-
   for (let j = wholeAmount - 1; j > 0; j--) {
     for (let i = 0; i < j; i++) {
       result.push(
@@ -164,10 +160,6 @@ export function sortingBubbleDescending(result: Array<{ data: number; type: Elem
   let wholeAmount = mockArray.length;
 
   let tempArray = [...mockArray];
-
-  // result[1] = tempArray.map((elem, key) => {
-  //   return { data: elem, type: key < 2 ? ElementStates.Changing : ElementStates.Default };
-  // });
 
   for (let j = wholeAmount - 1; j > 0; j--) {
     for (let i = 0; i < j; i++) {
