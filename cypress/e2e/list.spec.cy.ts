@@ -122,4 +122,24 @@ describe('List component tests', function () {
 
     cy.clock().invoke('restore');
   });
+
+  it('delete third element', () => {
+    cy.clock();
+
+    cy.get('[data-testid=index-input]').type('3');
+    cy.get('[data-testid=deleteWithIndex]').click();
+
+    cy.get('[class^="circle_content"]').find('[class*="small"]').should('have.css', 'border', '4px solid rgb(210, 82, 225)').contains('75');
+    cy.get('[class^="circle_circle"]').each((elem, index) => {
+      if (index < 3) {
+        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+      }
+    });
+    cy.get('[class^="circle_circle"]').eq(3).should('have.css', 'border', '4px solid rgb(0, 50, 255)').should('value', '');
+    cy.tick(1005);
+    cy.wait(5);
+    cy.get('[class^="circle_circle"]').eq(3).should('have.css', 'border', '4px solid rgb(0, 50, 255)').contains('7');
+
+    cy.clock().invoke('restore');
+  });
 });
