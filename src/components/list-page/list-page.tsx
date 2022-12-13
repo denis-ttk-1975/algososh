@@ -109,7 +109,7 @@ export const ListPage: React.FC = () => {
       <div className={`${styles.listContentArea}`}>
         <div className={`${styles.verticalInputForm}`}>
           <div className={`${styles.inputArea}`}>
-            <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChangeValue} value={valueToHandle} data-testid='value-input' />
+            <Input value={valueToHandle} isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChangeValue} data-testid='value-input' />
             <Button
               text={'Добавить в head'}
               extraClass={'button-style-middle'}
@@ -144,7 +144,7 @@ export const ListPage: React.FC = () => {
             />
           </div>
           <div className={`${styles.inputArea}`}>
-            <Input placeholder={'Введите индекс'} isLimitText={false} type={'number'} extraClass={'input-style'} onChange={handleChangeIndex} value={indexToHandle} data-testid='index-input' />
+            <Input value={indexToHandle} placeholder={'Введите индекс'} isLimitText={false} type={'number'} extraClass={'input-style'} onChange={handleChangeIndex} data-testid='index-input' />
             <Button
               text={'Добавить по индексу'}
               extraClass={'button-style-long'}

@@ -91,7 +91,7 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title='Строка'>
       <div className={`${styles.stringContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} data-testid='word' />
+          <Input value={word} isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} data-testid='word' />
           <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isTurningRef.current} data-testid='button' disabled={!word} />
         </div>
         <div className={`${styles.circleArea}`} data-testid='result'>
