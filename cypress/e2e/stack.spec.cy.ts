@@ -1,6 +1,6 @@
 describe('Stack component tests', function () {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/stack');
+    cy.visit('stack');
   });
 
   it('should open string page', () => {

@@ -1,6 +1,6 @@
 describe('All 6 pages with algorithm are available', function () {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('');
   });
 
   it('should open string page', () => {

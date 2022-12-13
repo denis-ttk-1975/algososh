@@ -1,6 +1,6 @@
 describe('List component tests', function () {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/list');
+    cy.visit('list');
   });
 
   it('should open List page', () => {

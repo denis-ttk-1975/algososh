@@ -1,6 +1,6 @@
 describe('String component tests', function () {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/recursion');
+    cy.visit('recursion');
   });
 
   it('should open string page', () => {

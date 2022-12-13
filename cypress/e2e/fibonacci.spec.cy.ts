@@ -1,6 +1,6 @@
 describe('Fibonacci component tests', function () {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/fibonacci');
+    cy.visit('fibonacci');
   });
 
   it('should open fibonacci page', () => {

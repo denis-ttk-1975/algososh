@@ -1,6 +1,6 @@
 describe('Queue component tests', function () {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/queue');
+    cy.visit('queue');
   });
 
   it('should open queue page', () => {
