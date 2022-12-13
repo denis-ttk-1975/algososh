@@ -38,6 +38,12 @@ export const SortingPage: React.FC = () => {
   const [sortingArray, setSortingArray] = useState<{ data: number; type: ElementStates }[]>([]);
 
   useEffect(() => {
+    setSortingArray(generateNewArray());
+    setMethod('selection');
+    setDirection(null);
+  }, []);
+
+  useEffect(() => {
     if (!!direction) {
       timerRef.current = setTimeout(() => {
         if (pointerToArrayElementToShow < result.length - 1) {
