@@ -18,6 +18,8 @@ export const QueuePage: React.FC = () => {
 
   const [animation, setAnimation] = useState<'head' | 'tail' | null>(null);
 
+  const [button, setButton] = useState<'add' | 'delete' | 'purge' | null>(null);
+
   useEffect(() => {
     timerRef.current = setTimeout(() => {
       setAnimation(null);
@@ -45,16 +47,19 @@ export const QueuePage: React.FC = () => {
 
     setWord('');
     setAnimation('tail');
+    setButton('add');
   };
 
   const handleDeleteClick = (event: MouseEvent<HTMLButtonElement>) => {
     queueForRender.current.delete();
     setAnimation('head');
+    setButton('delete');
   };
 
   const handlePurgeClick = (event: MouseEvent<HTMLButtonElement>) => {
     queueForRender.current.clear();
     setAnimation('tail');
+    setButton('purge');
   };
 
   return (
@@ -62,10 +67,10 @@ export const QueuePage: React.FC = () => {
       <div className={`${styles.queueContentArea}`}>
         <div className={`${styles.inputArea}`}>
           <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} data-testid='input' />
-          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} disabled={!word} data-testid='add' />
-          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={queueForRender.current.tail === null} data-testid='delete' />
+          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} disabled={!word} data-testid='add' isLoader={button === 'add'} />
+          <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={queueForRender.current.tail === null} data-testid='delete' isLoader={button === 'delete'} />
 
-          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={queueForRender.current.tail === null} data-testid='purge' />
+          <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={queueForRender.current.tail === null} data-testid='purge' isLoader={button === 'purge'} />
         </div>
         <div className={`${styles.circleArea}`}>
           {queueForRender.current.stack.map((elem, key, array) => {
