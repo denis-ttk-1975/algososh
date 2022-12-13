@@ -23,6 +23,7 @@ export const QueuePage: React.FC = () => {
   useEffect(() => {
     timerRef.current = setTimeout(() => {
       setAnimation(null);
+      setButton(null);
     }, SHORT_DELAY_IN_MS);
   }, [animation]);
 

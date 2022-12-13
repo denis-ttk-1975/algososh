@@ -9,7 +9,7 @@ import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 import styles from './fibonacci.module.css';
 
 export const FibonacciPage: React.FC = () => {
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>();
 
   // clear timer Timeout when unmounted to prevent memory leak
 
@@ -21,31 +21,46 @@ export const FibonacciPage: React.FC = () => {
     };
   }, []);
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState<number | null>(null);
   const [isRowRendering, setRowRendering] = useState(false);
   const [fibonacciRow, setFibonacciRow] = useState<number[]>([]);
 
   useEffect(() => {
-    if (fibonacciRow.length <= amount && isRowRendering) {
-      if (fibonacciRow.length === 0 || fibonacciRow.length === 1) {
-        timerRef.current = setTimeout(() => {
-          setFibonacciRow((prevRow) => [...prevRow, 1]);
-        }, SHORT_DELAY_IN_MS);
+    if (amount) {
+      if (fibonacciRow.length <= amount && isRowRendering) {
+        if (fibonacciRow.length === 0 || fibonacciRow.length === 1) {
+          timerRef.current = setTimeout(() => {
+            setFibonacciRow((prevRow) => [...prevRow, 1]);
+          }, SHORT_DELAY_IN_MS);
+        } else {
+          timerRef.current = setTimeout(() => {
+            setFibonacciRow((prevRow) => [...prevRow, prevRow[prevRow.length - 1] + prevRow[prevRow.length - 2]]);
+          }, SHORT_DELAY_IN_MS);
+        }
       } else {
-        timerRef.current = setTimeout(() => {
-          setFibonacciRow((prevRow) => [...prevRow, prevRow[prevRow.length - 1] + prevRow[prevRow.length - 2]]);
-        }, SHORT_DELAY_IN_MS);
+        setRowRendering(false);
       }
-    } else {
-      setRowRendering(false);
     }
   }, [fibonacciRow.length, isRowRendering]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAmount(+event.target.value);
+    if (amount) {
+      if (amount > 19) {
+        alert('Введено значение превысившее 19. Программа изменила значение на 19. Можете выбрать иное значение в пределах от 0 до 19');
+        setAmount(19);
+      }
+    }
   };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (amount) {
+      if (amount > 19) {
+        alert('Введено значение превысившее 19. Можете выбрать иное значение в пределах от 0 до 19');
+        setAmount(0);
+        return;
+      }
+    }
     setFibonacciRow([]);
     setRowRendering(true);
   };
@@ -54,7 +69,7 @@ export const FibonacciPage: React.FC = () => {
     <SolutionLayout title='Последовательность Фибоначчи'>
       <div className={`${styles.fibonacciContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} type={'number'} min={1} max={19} extraClass={'input-style'} onChange={handleChange} data-testid='input' />
+          <Input value={amount ? amount : ''} isLimitText={true} type={'number'} min={1} max={19} extraClass={'input-style'} onChange={handleChange} data-testid='input' />
           <Button text={'Рассчитать'} extraClass={'button-style'} onClick={handleClick} isLoader={isRowRendering} disabled={!amount} data-testid='button' />
         </div>
         <div className={`${styles.circleArea}`}>
