@@ -74,6 +74,7 @@ describe('Stack component tests', function () {
     cy.get('[class^="circle_circle"]').should('have.length', 3);
     cy.tick(1);
     cy.get('[data-testid=purge]').click();
+    cy.tick(501);
     cy.get('[class^="circle_circle"]').should('have.length', 0);
 
     cy.clock().invoke('restore');
