@@ -30,6 +30,8 @@ export const twoElementsOfArrayReversion = (startArray: { element: string; type:
 export const StringComponent: React.FC = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const isTurningRef = useRef<boolean>(false);
+
   // clear timer Timeout when unmounted to prevent memory leak
 
   useEffect(() => {
@@ -42,7 +44,6 @@ export const StringComponent: React.FC = () => {
 
   const [word, setWord] = useState('');
   const [turningArray, setTurningArray] = useState(arrayFromString);
-  const [isStringTurning, setStringTurning] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setWord(event.target.value);
@@ -66,12 +67,14 @@ export const StringComponent: React.FC = () => {
           return { ...elem, type: ElementStates.Modified };
         });
         setTurningArray(() => [...arrayArg]);
+        isTurningRef.current = false;
       }, DELAY_IN_MS);
     }
   };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setStringTurning(true);
+    isTurningRef.current = true;
+
     let mockArray = Array.from(word);
     let start = 0;
     let end = mockArray.length - 1;
@@ -82,8 +85,6 @@ export const StringComponent: React.FC = () => {
     timerRef.current = setTimeout(() => {
       arrayReversion([...arrayFromString], start, end);
     }, DELAY_IN_MS);
-    // arrayReversion([...arrayFromString], start, end);
-    setStringTurning(false);
   };
 
   return (
@@ -91,7 +92,7 @@ export const StringComponent: React.FC = () => {
       <div className={`${styles.stringContentArea}`}>
         <div className={`${styles.inputArea}`}>
           <Input isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} data-testid='word' />
-          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isStringTurning} data-testid='button' disabled={!word} />
+          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isTurningRef.current} data-testid='button' disabled={!word} />
         </div>
         <div className={`${styles.circleArea}`} data-testid='result'>
           {!!turningArray.length
