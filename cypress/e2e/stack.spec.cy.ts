@@ -52,6 +52,7 @@ describe('Stack component tests', function () {
     cy.clock();
     cy.get('[data-testid=input]').type('A');
     cy.get('[data-testid=add]').click();
+    cy.tick(501);
     cy.get('[data-testid=input]').type('B');
     cy.get('[data-testid=add]').click();
 
@@ -67,8 +68,10 @@ describe('Stack component tests', function () {
     cy.clock();
     cy.get('[data-testid=input]').type('A');
     cy.get('[data-testid=add]').click();
+    cy.tick(501);
     cy.get('[data-testid=input]').type('B');
     cy.get('[data-testid=add]').click();
+    cy.tick(501);
     cy.get('[data-testid=input]').type('C');
     cy.get('[data-testid=add]').click();
     cy.get('[class^="circle_circle"]').should('have.length', 3);
