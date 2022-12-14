@@ -1,3 +1,5 @@
+import * as constants from './constant';
+
 describe('String component tests', function () {
   beforeEach(() => {
     cy.visit('recursion');
@@ -8,46 +10,46 @@ describe('String component tests', function () {
   });
 
   it('button should be inactive while no value in input', () => {
-    cy.get('[data-testid=word]').should('has.value', '');
-    cy.get('[data-testid=button]').should('be.disabled');
+    cy.get(constants.ID_INPUT_STRING).should('has.value', '');
+    cy.get(constants.ID_BUTTON).should('be.disabled');
   });
 
   it('fill input with some value should activate button', () => {
-    cy.get('[data-testid=word]').type('1234');
-    cy.get('[data-testid=button]').should('be.enabled');
+    cy.get(constants.ID_INPUT_STRING).type('1234');
+    cy.get(constants.ID_BUTTON).should('be.enabled');
   });
 
   it('click button and string unwrapping correсtly', () => {
-    cy.get('[data-testid=word]').type('123');
+    cy.get(constants.ID_INPUT_STRING).type('123');
     cy.clock();
-    cy.get('[data-testid=button]').click();
+    cy.get(constants.ID_BUTTON).click();
 
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
-      cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
+      cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
       if (index === 0) cy.wrap(elem).contains('1');
       if (index === 1) cy.wrap(elem).contains('2');
       if (index === 2) cy.wrap(elem).contains('3');
     });
 
     cy.tick(1000);
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
-      if (index === 0) cy.wrap(elem).contains('1') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-      if (index === 1) cy.wrap(elem).contains('2') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-      if (index === 2) cy.wrap(elem).contains('3') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
+      if (index === 0) cy.wrap(elem).contains('1') && cy.wrap(elem).should('have.css', 'border', constants.ID_CHANGING_ATTRIBUTES);
+      if (index === 1) cy.wrap(elem).contains('2') && cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
+      if (index === 2) cy.wrap(elem).contains('3') && cy.wrap(elem).should('have.css', 'border', constants.ID_CHANGING_ATTRIBUTES);
     });
 
     cy.tick(1000);
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
-      if (index === 0) cy.wrap(elem).contains('3') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(127, 224, 81)');
-      if (index === 1) cy.wrap(elem).contains('2') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-      if (index === 2) cy.wrap(elem).contains('1') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(127, 224, 81)');
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
+      if (index === 0) cy.wrap(elem).contains('3') && cy.wrap(elem).should('have.css', 'border', constants.ID_MODIFIED_ATTRIBUTES);
+      if (index === 1) cy.wrap(elem).contains('2') && cy.wrap(elem).should('have.css', 'border', constants.ID_CHANGING_ATTRIBUTES);
+      if (index === 2) cy.wrap(elem).contains('1') && cy.wrap(elem).should('have.css', 'border', constants.ID_MODIFIED_ATTRIBUTES);
     });
 
     cy.tick(1000);
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
-      if (index === 0) cy.wrap(elem).contains('3') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(127, 224, 81)');
-      if (index === 1) cy.wrap(elem).contains('2') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(127, 224, 81)');
-      if (index === 2) cy.wrap(elem).contains('1') && cy.wrap(elem).should('have.css', 'border', '4px solid rgb(127, 224, 81)');
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
+      if (index === 0) cy.wrap(elem).contains('3') && cy.wrap(elem).should('have.css', 'border', constants.ID_MODIFIED_ATTRIBUTES);
+      if (index === 1) cy.wrap(elem).contains('2') && cy.wrap(elem).should('have.css', 'border', constants.ID_MODIFIED_ATTRIBUTES);
+      if (index === 2) cy.wrap(elem).contains('1') && cy.wrap(elem).should('have.css', 'border', constants.ID_MODIFIED_ATTRIBUTES);
     });
 
     cy.clock().invoke('restore');

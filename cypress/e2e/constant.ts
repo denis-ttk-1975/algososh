@@ -11,9 +11,9 @@ export const ID_BUTTON_ADD_LAST = '[data-testid=addLast]';
 export const ID_BUTTON_ADD_WITH_INDEX = '[data-testid=addWithIndex]';
 
 export const ID_BUTTON_DELETE = '[data-testid=delete]';
-export const ID_BUTTON_DELETE_FIRST = '[data-testid=deleteWithIndex]';
-export const ID_BUTTON_DELETE_LAST = '[data-testid=deleteFirst]';
-export const ID_BUTTON_DELETE_WITH_INDEX = '[data-testid=deleteLast]';
+export const ID_BUTTON_DELETE_FIRST = '[data-testid=deleteFirst]';
+export const ID_BUTTON_DELETE_LAST = '[data-testid=deleteLast]';
+export const ID_BUTTON_DELETE_WITH_INDEX = '[data-testid=deleteWithIndex]';
 
 export const ID_BUTTON_PURGE = '[data-testid=purge]';
 

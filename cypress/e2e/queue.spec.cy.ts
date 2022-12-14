@@ -1,3 +1,5 @@
+import * as constants from './constant';
+
 describe('Queue component tests', function () {
   beforeEach(() => {
     cy.visit('queue');
@@ -8,66 +10,66 @@ describe('Queue component tests', function () {
   });
 
   it('button should be inactive while no value in input', () => {
-    cy.get('[data-testid=input]').should('has.value', '');
-    cy.get('[data-testid=add]').should('be.disabled');
+    cy.get(constants.ID_INPUT).should('has.value', '');
+    cy.get(constants.ID_BUTTON_ADD).should('be.disabled');
   });
 
   it('fill input with some value should activate button', () => {
-    cy.get('[data-testid=input]').type('5');
-    cy.get('[data-testid=add]').should('be.enabled');
+    cy.get(constants.ID_INPUT).type('5');
+    cy.get(constants.ID_BUTTON_ADD).should('be.enabled');
   });
 
   it('click add button and queue adding correctly', () => {
     cy.clock();
-    cy.get('[data-testid=input]').type('A');
+    cy.get(constants.ID_INPUT).type('A');
 
-    cy.get('[data-testid=add]').click();
-    cy.get('[class^="circle_circle"]').should('have.length', 7);
-    cy.get('[class^="circle_circle"]').eq(0).contains('A');
-    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
+    cy.get(constants.ID_BUTTON_ADD).click();
+    cy.get(constants.ID_CLASS_CIRCLE).should('have.length', 7);
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).contains('A');
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).should('have.css', 'border', constants.ID_CHANGING_ATTRIBUTES);
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
       if (index > 0) {
-        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+        cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
         cy.wrap(elem).should('value', '');
       }
     });
     cy.tick(500);
 
-    cy.get('[class^="circle_circle"]').should('have.length', 7);
-    cy.get('[class^="circle_circle"]').eq(0).contains('A');
-    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
+    cy.get(constants.ID_CLASS_CIRCLE).should('have.length', 7);
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).contains('A');
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
       if (index > 0) {
-        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+        cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
         cy.wrap(elem).should('value', '');
       }
     });
 
-    cy.get('[data-testid=input]').type('B');
-    cy.get('[data-testid=add]').click();
+    cy.get(constants.ID_INPUT).type('B');
+    cy.get(constants.ID_BUTTON_ADD).click();
 
-    cy.get('[class^="circle_circle"]').should('have.length', 7);
-    cy.get('[class^="circle_circle"]').eq(0).contains('A');
-    cy.get('[class^="circle_circle"]').eq(1).contains('B');
-    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-    cy.get('[class^="circle_circle"]').eq(1).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
+    cy.get(constants.ID_CLASS_CIRCLE).should('have.length', 7);
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).contains('A');
+    cy.get(constants.ID_CLASS_CIRCLE).eq(1).contains('B');
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
+    cy.get(constants.ID_CLASS_CIRCLE).eq(1).should('have.css', 'border', constants.ID_CHANGING_ATTRIBUTES);
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
       if (index > 1) {
-        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+        cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
         cy.wrap(elem).should('value', '');
       }
     });
 
     cy.tick(500);
 
-    cy.get('[class^="circle_circle"]').should('have.length', 7);
-    cy.get('[class^="circle_circle"]').eq(0).contains('A');
-    cy.get('[class^="circle_circle"]').eq(1).contains('B');
-    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-    cy.get('[class^="circle_circle"]').eq(1).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
+    cy.get(constants.ID_CLASS_CIRCLE).should('have.length', 7);
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).contains('A');
+    cy.get(constants.ID_CLASS_CIRCLE).eq(1).contains('B');
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
+    cy.get(constants.ID_CLASS_CIRCLE).eq(1).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
       if (index > 1) {
-        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+        cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
         cy.wrap(elem).should('value', '');
       }
     });
@@ -76,48 +78,48 @@ describe('Queue component tests', function () {
   });
 
   it('click delete button and queue remove element correctly', () => {
-    cy.get('[data-testid=input]').type('A');
-    cy.get('[data-testid=add]').click();
-    cy.get('[data-testid=input]').type('B');
-    cy.get('[data-testid=add]').click();
+    cy.get(constants.ID_INPUT).type('A');
+    cy.get(constants.ID_BUTTON_ADD).click();
+    cy.get(constants.ID_INPUT).type('B');
+    cy.get(constants.ID_BUTTON_ADD).click();
 
     cy.clock();
 
-    cy.get('[data-testid=delete]').click();
-    cy.get('[class^="circle_circle"]').should('have.length', 7);
-    cy.get('[class^="circle_circle"]').should('have.length', 7);
-    cy.get('[class^="circle_circle"]').eq(0).should('value', '');
-    cy.get('[class^="circle_circle"]').eq(1).contains('B');
-    cy.get('[class^="circle_circle"]').eq(0).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
-    cy.get('[class^="circle_circle"]').eq(1).should('have.css', 'border', '4px solid rgb(210, 82, 225)');
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
+    cy.get(constants.ID_BUTTON_DELETE).click();
+    cy.get(constants.ID_CLASS_CIRCLE).should('have.length', 7);
+    cy.get(constants.ID_CLASS_CIRCLE).should('have.length', 7);
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).should('value', '');
+    cy.get(constants.ID_CLASS_CIRCLE).eq(1).contains('B');
+    cy.get(constants.ID_CLASS_CIRCLE).eq(0).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
+    cy.get(constants.ID_CLASS_CIRCLE).eq(1).should('have.css', 'border', constants.ID_CHANGING_ATTRIBUTES);
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
       if (index > 1) {
-        cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+        cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
         cy.wrap(elem).should('value', '');
       }
     });
 
     cy.tick(500);
 
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
-      cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
+      cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
     });
-    cy.get('[data-testid=input]').type('C');
-    cy.get('[data-testid=add]').click();
-    cy.get('[class^="circle_circle"]').eq(2).contains('C');
+    cy.get(constants.ID_INPUT).type('C');
+    cy.get(constants.ID_BUTTON_ADD).click();
+    cy.get(constants.ID_CLASS_CIRCLE).eq(2).contains('C');
 
     cy.clock().invoke('restore');
   });
 
   it('click clear button and queue cleared correctly', () => {
-    cy.get('[data-testid=input]').type('A');
-    cy.get('[data-testid=add]').click();
-    cy.get('[data-testid=input]').type('B');
-    cy.get('[data-testid=add]').click();
-    cy.get('[data-testid=purge]').click();
-    cy.get('[class^="circle_circle"]').should('have.length', 7);
-    cy.get('[class^="circle_circle"]').each((elem, index) => {
-      cy.wrap(elem).should('have.css', 'border', '4px solid rgb(0, 50, 255)');
+    cy.get(constants.ID_INPUT).type('A');
+    cy.get(constants.ID_BUTTON_ADD).click();
+    cy.get(constants.ID_INPUT).type('B');
+    cy.get(constants.ID_BUTTON_ADD).click();
+    cy.get(constants.ID_BUTTON_PURGE).click();
+    cy.get(constants.ID_CLASS_CIRCLE).should('have.length', 7);
+    cy.get(constants.ID_CLASS_CIRCLE).each((elem, index) => {
+      cy.wrap(elem).should('have.css', 'border', constants.ID_DEFAULT_ATTRIBUTES);
       cy.wrap(elem).should('value', '');
     });
   });
