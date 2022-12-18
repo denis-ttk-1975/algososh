@@ -11,7 +11,7 @@ import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 import { sortingSelectionAscending, sortingSelectionDescending, sortingBubbleAscending, sortingBubbleDescending } from './utils';
 
 import styles from './sorting-page.module.css';
-import './sorting-page.css';
+// import './sorting-page.css';
 
 let result: Array<{ data: number; type: ElementStates }[]> = [];
 

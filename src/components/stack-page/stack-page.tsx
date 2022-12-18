@@ -10,7 +10,7 @@ import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 import { Stack } from './stack-class';
 
 import styles from './stack-page.module.css';
-import './stack-page.css';
+// import './stack-page.css';
 
 export const StackPage: React.FC = () => {
   const stackForRender = useRef(new Stack());

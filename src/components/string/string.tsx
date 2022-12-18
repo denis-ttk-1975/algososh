@@ -8,7 +8,7 @@ import { ElementStates } from '../../types/element-states';
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import styles from './string.module.css';
-import './string.css';
+// import './string.css';
 
 let arrayFromString: { element: string; type: ElementStates }[] = [];
 
