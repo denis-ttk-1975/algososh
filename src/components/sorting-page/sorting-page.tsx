@@ -12,7 +12,6 @@ import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 import { sortingSelectionAscending, sortingSelectionDescending, sortingBubbleAscending, sortingBubbleDescending } from './utils';
 
 import styles from './sorting-page.module.css';
-// import './sorting-page.css';
 
 let result: Array<{ data: number; type: ElementStates }[]> = [];
 
@@ -35,16 +34,11 @@ export const SortingPage: React.FC = () => {
     };
   }, []);
 
-  // const [method, setMethod] = useState<'selection' | 'bubble'>('selection');
-  // const [direction, setDirection] = useState<'Ascending' | 'Descending' | null>(null);
-
   const [sortingArray, setSortingArray] = useState<{ data: number; type: ElementStates }[]>([]);
 
   useEffect(() => {
     setSortingArray(generateNewArray());
     setValues({ method: 'selection', direction: null });
-    // setMethod('selection');
-    // setDirection(null);
   }, []);
 
   useEffect(() => {
@@ -57,19 +51,15 @@ export const SortingPage: React.FC = () => {
           result = [result[0]];
           pointerToArrayElementToShow = 0;
           setValues({ method: 'selection', direction: null });
-          // setMethod('selection');
-          // setDirection(null);
         }
       }, SHORT_DELAY_IN_MS);
     } else {
       setValues({ ...values, direction: null });
-      // setDirection(null);
     }
   }, [sortingArray, values.direction]);
 
   const handleChangeMethod = (event: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, method: event.target.value });
-    // setMethod(event.target.value as 'selection' | 'bubble');
   };
 
   const handleStartSortingAscending = (event: MouseEvent<HTMLButtonElement>) => {
@@ -79,7 +69,6 @@ export const SortingPage: React.FC = () => {
       result = sortingBubbleAscending(result, mockArray);
     }
     setValues({ ...values, direction: 'Ascending' });
-    // setDirection('Ascending');
   };
 
   const handleStartSortingDescending = (event: MouseEvent<HTMLButtonElement>) => {
@@ -89,14 +78,11 @@ export const SortingPage: React.FC = () => {
       result = sortingBubbleDescending(result, mockArray);
     }
     setValues({ ...values, direction: 'Descending' });
-    // setDirection('Descending');
   };
 
   const handleGenerateNewArray = (event: MouseEvent<HTMLButtonElement>) => {
     setSortingArray(generateNewArray());
     setValues({ method: 'selection', direction: null });
-    // setMethod('selection');
-    // setDirection(null);
   };
 
   const generateNewArray = () => {

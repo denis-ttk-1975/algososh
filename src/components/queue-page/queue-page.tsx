@@ -15,8 +15,6 @@ import styles from './queue-page.module.css';
 export const QueuePage: React.FC = () => {
   const { values, handleChange, setValues } = useForm({ word: '' });
 
-  // const [word, setWord] = useState('');
-
   const queueForRender = useRef(new Queue());
 
   const [animation, setAnimation] = useState<'head' | 'tail' | null>(null);
@@ -42,15 +40,10 @@ export const QueuePage: React.FC = () => {
     };
   }, []);
 
-  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setWord(event.target.value);
-  // };
-
   const handleAddClick = (event: MouseEvent<HTMLButtonElement>) => {
     queueForRender.current.add(values.word);
 
     setValues({ word: '' });
-    // setWord('');
     setAnimation('tail');
     setButton('add');
   };

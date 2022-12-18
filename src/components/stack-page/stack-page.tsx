@@ -11,16 +11,11 @@ import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 import { Stack } from './stack-class';
 
 import styles from './stack-page.module.css';
-// import './stack-page.css';
 
 export const StackPage: React.FC = () => {
   const stackForRender = useRef(new Stack());
 
   const { values, handleChange, setValues } = useForm({ word: '' });
-
-  // const [word, setWord] = useState<string>('');
-
-  // const [stackForRender, setStackForRender] = useState<string[]>([]);
 
   const [animation, setAnimation] = useState(false);
 
@@ -45,16 +40,11 @@ export const StackPage: React.FC = () => {
     };
   }, []);
 
-  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setWord(event.target.value);
-  // };
-
   const handleAddClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (stackForRender.current.stack.length < 21) {
       if (values.word) {
         stackForRender.current.add(values.word);
         setValues({ word: '' });
-        // setWord('');
         setAnimation(true);
         setButton('add');
       }

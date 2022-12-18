@@ -39,9 +39,6 @@ export const ListPage: React.FC = () => {
     };
   }, []);
 
-  // const [valueToHandle, setValueForHandle] = useState('');
-  // const [indexToHandle, setIndexForHandle] = useState('');
-
   const [stagesToRender, setStagesToRender] = useState<TStages[]>([{ stage: list.current.toArray() }]);
 
   const [renderingStage, setRenderingStage] = useState(0);
@@ -85,8 +82,6 @@ export const ListPage: React.FC = () => {
                 clearInterval(intervalAnimationRef.current);
               }
               setValues({ value: '', index: '' });
-              // setValueForHandle('');
-              // setIndexForHandle('');
               setStagesToRender([{ stage: list.current.toArray() }]);
 
               setOperationToRender(null);
@@ -99,14 +94,6 @@ export const ListPage: React.FC = () => {
       }
     }
   }, [operationToRender]);
-
-  // const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setValueForHandle(event.target.value);
-  // };
-
-  // const handleChangeIndex = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setIndexForHandle(event.target.value);
-  // };
 
   return (
     <SolutionLayout title='Связный список'>

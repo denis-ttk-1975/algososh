@@ -25,7 +25,6 @@ export const FibonacciPage: React.FC = () => {
     };
   }, []);
 
-  // const [amount, setAmount] = useState<number | null>(null);
   const [isRowRendering, setRowRendering] = useState(false);
   const [fibonacciRow, setFibonacciRow] = useState<number[]>([]);
 
@@ -46,16 +45,6 @@ export const FibonacciPage: React.FC = () => {
       }
     }
   }, [fibonacciRow.length, isRowRendering]);
-
-  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setAmount(+event.target.value);
-  //   if (amount) {
-  //     if (amount > 19) {
-  //       alert('Введено значение превысившее 19. Программа изменила значение на 19. Можете выбрать иное значение в пределах от 0 до 19');
-  //       setAmount(19);
-  //     }
-  //   }
-  // };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (values.amount) {

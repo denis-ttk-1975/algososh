@@ -9,7 +9,6 @@ import { useForm } from './../../hooks/useForm';
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import styles from './string.module.css';
-// import './string.css';
 
 let arrayFromString: { element: string; type: ElementStates }[] = [];
 
@@ -45,12 +44,7 @@ export const StringComponent: React.FC = () => {
     };
   }, []);
 
-  // const [word, setWord] = useState('');
   const [turningArray, setTurningArray] = useState(arrayFromString);
-
-  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setWord(event.target.value);
-  // };
 
   const arrayReversion = (arrayArg: typeof arrayFromString, firstIndex: number, secondIndex: number) => {
     arrayArg = twoElementsOfArrayReversion(arrayArg, firstIndex, secondIndex);
