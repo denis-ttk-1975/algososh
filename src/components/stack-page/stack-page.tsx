@@ -4,6 +4,7 @@ import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 import { ElementStates } from '../../types/element-states';
+import { useForm } from './../../hooks/useForm';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
@@ -14,7 +15,10 @@ import styles from './stack-page.module.css';
 
 export const StackPage: React.FC = () => {
   const stackForRender = useRef(new Stack());
-  const [word, setWord] = useState<string>('');
+
+  const { values, handleChange, setValues } = useForm({ word: '' });
+
+  // const [word, setWord] = useState<string>('');
 
   // const [stackForRender, setStackForRender] = useState<string[]>([]);
 
@@ -41,15 +45,16 @@ export const StackPage: React.FC = () => {
     };
   }, []);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setWord(event.target.value);
-  };
+  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setWord(event.target.value);
+  // };
 
   const handleAddClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (stackForRender.current.stack.length < 21) {
-      if (word) {
-        stackForRender.current.add(word);
-        setWord('');
+      if (values.word) {
+        stackForRender.current.add(values.word);
+        setValues({ word: '' });
+        // setWord('');
         setAnimation(true);
         setButton('add');
       }
@@ -78,8 +83,8 @@ export const StackPage: React.FC = () => {
     <SolutionLayout title='Стек'>
       <div className={`${styles.stackContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={word} data-testid='input' />
-          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} disabled={!word} data-testid='add' isLoader={button === 'add'} />
+          <Input isLimitText={true} type={'text'} name={'word'} maxLength={4} extraClass={'input-style'} onChange={handleChange} value={values.word} data-testid='input' />
+          <Button text={'Добавить'} extraClass={''} onClick={handleAddClick} name={'add'} value={'add'} disabled={!values.word} data-testid='add' isLoader={button === 'add'} />
           <Button text={'Удалить'} extraClass={''} onClick={handleDeleteClick} disabled={!stackForRender.current.stack.length} data-testid='delete' isLoader={button === 'delete'} />
 
           <Button text={'Очистить'} extraClass={'margin-left-68'} onClick={handlePurgeClick} disabled={!stackForRender.current.stack.length} data-testid='purge' isLoader={button === 'purge'} />
