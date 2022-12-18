@@ -4,6 +4,7 @@ import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 import { ArrowIcon } from './../ui/icons/arrow-icon';
+import { useForm } from './../../hooks/useForm';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
@@ -26,6 +27,8 @@ export const ListPage: React.FC = () => {
   const list = useRef(new LinkedList(listForFirstRender));
   const intervalAnimationRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const { values, handleChange, setValues } = useForm({ value: '', index: '' });
+
   // clear timer Interval when unmounted to prevent memory leak
 
   useEffect(() => {
@@ -36,8 +39,8 @@ export const ListPage: React.FC = () => {
     };
   }, []);
 
-  const [valueToHandle, setValueForHandle] = useState('');
-  const [indexToHandle, setIndexForHandle] = useState('');
+  // const [valueToHandle, setValueForHandle] = useState('');
+  // const [indexToHandle, setIndexForHandle] = useState('');
 
   const [stagesToRender, setStagesToRender] = useState<TStages[]>([{ stage: list.current.toArray() }]);
 
@@ -53,10 +56,10 @@ export const ListPage: React.FC = () => {
 
       switch (operationToRender) {
         case 'addFirst':
-          temporalArray = addFirst(valueToHandle, list.current);
+          temporalArray = addFirst(values.value, list.current);
           break;
         case 'addLast':
-          temporalArray = addLast(valueToHandle, list.current);
+          temporalArray = addLast(values.value, list.current);
           break;
         case 'deleteFirst':
           temporalArray = deleteFirst(list.current);
@@ -65,10 +68,10 @@ export const ListPage: React.FC = () => {
           temporalArray = deleteLast(list.current);
           break;
         case 'addWithIndex':
-          temporalArray = addWithIndex(Number(indexToHandle), valueToHandle, list.current);
+          temporalArray = addWithIndex(Number(values.index), values.value, list.current);
           break;
         case 'deleteWithIndex':
-          temporalArray = deleteWithIndex(Number(indexToHandle), list.current);
+          temporalArray = deleteWithIndex(Number(values.index), list.current);
           break;
       }
 
@@ -81,8 +84,9 @@ export const ListPage: React.FC = () => {
               if (!!intervalAnimationRef.current) {
                 clearInterval(intervalAnimationRef.current);
               }
-              setValueForHandle('');
-              setIndexForHandle('');
+              setValues({ value: '', index: '' });
+              // setValueForHandle('');
+              // setIndexForHandle('');
               setStagesToRender([{ stage: list.current.toArray() }]);
 
               setOperationToRender(null);
@@ -96,24 +100,24 @@ export const ListPage: React.FC = () => {
     }
   }, [operationToRender]);
 
-  const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setValueForHandle(event.target.value);
-  };
+  // const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setValueForHandle(event.target.value);
+  // };
 
-  const handleChangeIndex = (event: ChangeEvent<HTMLInputElement>) => {
-    setIndexForHandle(event.target.value);
-  };
+  // const handleChangeIndex = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setIndexForHandle(event.target.value);
+  // };
 
   return (
     <SolutionLayout title='Связный список'>
       <div className={`${styles.listContentArea}`}>
         <div className={`${styles.verticalInputForm}`}>
           <div className={`${styles.inputArea}`}>
-            <Input value={valueToHandle} isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChangeValue} data-testid='value-input' />
+            <Input value={values.value} name={'value'} isLimitText={true} type={'text'} maxLength={4} extraClass={'input-style'} onChange={handleChange} data-testid='value-input' />
             <Button
               text={'Добавить в head'}
               extraClass={'button-style-middle'}
-              disabled={!valueToHandle.length || (operationToRender !== 'addFirst' && !!operationToRender)}
+              disabled={!values.value.length || (operationToRender !== 'addFirst' && !!operationToRender)}
               onClick={() => setOperationToRender('addFirst')}
               isLoader={operationToRender === 'addFirst'}
               data-testid='addFirst'
@@ -121,7 +125,7 @@ export const ListPage: React.FC = () => {
             <Button
               text={'Добавить в tail'}
               extraClass={'button-style-middle'}
-              disabled={!valueToHandle.length || (operationToRender !== 'addLast' && !!operationToRender)}
+              disabled={!values.value.length || (operationToRender !== 'addLast' && !!operationToRender)}
               onClick={() => setOperationToRender('addLast')}
               isLoader={operationToRender === 'addLast'}
               data-testid='addLast'
@@ -144,15 +148,24 @@ export const ListPage: React.FC = () => {
             />
           </div>
           <div className={`${styles.inputArea}`}>
-            <Input value={indexToHandle} placeholder={'Введите индекс'} isLimitText={false} type={'number'} extraClass={'input-style'} onChange={handleChangeIndex} data-testid='index-input' />
+            <Input
+              value={values.index}
+              name={'index'}
+              placeholder={'Введите индекс'}
+              isLimitText={false}
+              type={'number'}
+              extraClass={'input-style'}
+              onChange={handleChange}
+              data-testid='index-input'
+            />
             <Button
               text={'Добавить по индексу'}
               extraClass={'button-style-long'}
               disabled={
-                Number(indexToHandle) > list.current.toArray().length - 1 ||
-                Number(indexToHandle) < 0 ||
-                !indexToHandle.length ||
-                !valueToHandle.length ||
+                Number(values.index) > list.current.toArray().length - 1 ||
+                Number(values.index) < 0 ||
+                !values.index.length ||
+                !values.value.length ||
                 (operationToRender !== 'addWithIndex' && !!operationToRender)
               }
               onClick={() => setOperationToRender('addWithIndex')}
@@ -163,7 +176,7 @@ export const ListPage: React.FC = () => {
               text={'Удалить по индексу'}
               extraClass={'button-style-long'}
               disabled={
-                Number(indexToHandle) > list.current.toArray().length - 1 || Number(indexToHandle) < 0 || !indexToHandle.length || (operationToRender !== 'deleteWithIndex' && !!operationToRender)
+                Number(values.index) > list.current.toArray().length - 1 || Number(values.index) < 0 || !values.index.length || (operationToRender !== 'deleteWithIndex' && !!operationToRender)
               }
               onClick={() => setOperationToRender('deleteWithIndex')}
               isLoader={operationToRender === 'deleteWithIndex'}
