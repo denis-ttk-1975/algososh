@@ -5,6 +5,7 @@ import { Column } from '../ui/column/column';
 import { Button } from '../ui/button/button';
 import { Direction } from '../../types/direction';
 import { ElementStates } from '../../types/element-states';
+import { useForm } from './../../hooks/useForm';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
@@ -22,6 +23,8 @@ let pointerToArrayElementToShow = 0;
 export const SortingPage: React.FC = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const { values, handleChange, setValues } = useForm({ method: 'selection', direction: null });
+
   // clear timer Timeout when unmounted to prevent memory leak
 
   useEffect(() => {
@@ -32,19 +35,20 @@ export const SortingPage: React.FC = () => {
     };
   }, []);
 
-  const [method, setMethod] = useState<'selection' | 'bubble'>('selection');
-  const [direction, setDirection] = useState<'Ascending' | 'Descending' | null>(null);
+  // const [method, setMethod] = useState<'selection' | 'bubble'>('selection');
+  // const [direction, setDirection] = useState<'Ascending' | 'Descending' | null>(null);
 
   const [sortingArray, setSortingArray] = useState<{ data: number; type: ElementStates }[]>([]);
 
   useEffect(() => {
     setSortingArray(generateNewArray());
-    setMethod('selection');
-    setDirection(null);
+    setValues({ method: 'selection', direction: null });
+    // setMethod('selection');
+    // setDirection(null);
   }, []);
 
   useEffect(() => {
-    if (!!direction) {
+    if (!!values.direction) {
       timerRef.current = setTimeout(() => {
         if (pointerToArrayElementToShow < result.length - 1) {
           setSortingArray(result[pointerToArrayElementToShow + 1]);
@@ -52,42 +56,47 @@ export const SortingPage: React.FC = () => {
         } else {
           result = [result[0]];
           pointerToArrayElementToShow = 0;
-          setMethod('selection');
-          setDirection(null);
+          setValues({ method: 'selection', direction: null });
+          // setMethod('selection');
+          // setDirection(null);
         }
       }, SHORT_DELAY_IN_MS);
     } else {
-      setDirection(null);
+      setValues({ ...values, direction: null });
+      // setDirection(null);
     }
-  }, [sortingArray, direction]);
+  }, [sortingArray, values.direction]);
 
   const handleChangeMethod = (event: ChangeEvent<HTMLInputElement>) => {
-    setMethod(event.target.value as 'selection' | 'bubble');
+    setValues({ ...values, method: event.target.value });
+    // setMethod(event.target.value as 'selection' | 'bubble');
   };
 
   const handleStartSortingAscending = (event: MouseEvent<HTMLButtonElement>) => {
-    if (method === 'selection') {
+    if (values.method === 'selection') {
       result = sortingSelectionAscending(result, mockArray);
     } else {
       result = sortingBubbleAscending(result, mockArray);
     }
-
-    setDirection('Ascending');
+    setValues({ ...values, direction: 'Ascending' });
+    // setDirection('Ascending');
   };
 
   const handleStartSortingDescending = (event: MouseEvent<HTMLButtonElement>) => {
-    if (method === 'selection') {
+    if (values.method === 'selection') {
       result = sortingSelectionDescending(result, mockArray);
     } else {
       result = sortingBubbleDescending(result, mockArray);
     }
-    setDirection('Descending');
+    setValues({ ...values, direction: 'Descending' });
+    // setDirection('Descending');
   };
 
   const handleGenerateNewArray = (event: MouseEvent<HTMLButtonElement>) => {
     setSortingArray(generateNewArray());
-    setMethod('selection');
-    setDirection(null);
+    setValues({ method: 'selection', direction: null });
+    // setMethod('selection');
+    // setDirection(null);
   };
 
   const generateNewArray = () => {
@@ -109,28 +118,44 @@ export const SortingPage: React.FC = () => {
     <SolutionLayout title='Сортировка массива'>
       <div className={`${styles.sortingContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <RadioInput label={'Выбор'} extraClass={'margin-right-40'} checked={method === 'selection'} name='method' value='selection' onChange={handleChangeMethod} disabled={!!direction} />
-          <RadioInput label={'Пузырек'} extraClass={'margin-right-52'} checked={method === 'bubble'} name='method' value='bubble' onChange={handleChangeMethod} disabled={!!direction} />
+          <RadioInput
+            label={'Выбор'}
+            extraClass={'margin-right-40'}
+            checked={values.method === 'selection'}
+            name={'method'}
+            value='selection'
+            onChange={handleChangeMethod}
+            disabled={!!values.direction}
+          />
+          <RadioInput
+            label={'Пузырек'}
+            extraClass={'margin-right-52'}
+            checked={values.method === 'bubble'}
+            name={'method'}
+            value='bubble'
+            onChange={handleChangeMethod}
+            disabled={!!values.direction}
+          />
 
           <Button
             sorting={Direction.Ascending}
             text={'По возрастанию'}
             onClick={handleStartSortingAscending}
             extraClass={''}
-            isLoader={direction === 'Ascending'}
-            disabled={direction === 'Descending' || !sortingArray.length}
-            name='Ascending'
+            isLoader={values.direction === 'Ascending'}
+            disabled={values.direction === 'Descending' || !sortingArray.length}
+            name={'Ascending'}
           />
           <Button
             sorting={Direction.Descending}
             text={'По убыванию'}
             onClick={handleStartSortingDescending}
             extraClass={''}
-            isLoader={direction === 'Descending'}
-            disabled={direction === 'Ascending' || !sortingArray.length}
-            name='Descending'
+            isLoader={values.direction === 'Descending'}
+            disabled={values.direction === 'Ascending' || !sortingArray.length}
+            name={'Descending'}
           />
-          <Button text={'Новый массив'} extraClass={'margin-left-68'} onClick={handleGenerateNewArray} disabled={!!direction} />
+          <Button text={'Новый массив'} extraClass={'margin-left-68'} onClick={handleGenerateNewArray} disabled={!!values.direction} />
         </div>
         <div className={`${styles.columnArea}`}>
           {sortingArray.map((elem, key) => {
