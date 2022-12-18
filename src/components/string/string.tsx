@@ -4,6 +4,7 @@ import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 import { ElementStates } from '../../types/element-states';
+import { useForm } from './../../hooks/useForm';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
@@ -32,6 +33,8 @@ export const StringComponent: React.FC = () => {
 
   const isTurningRef = useRef<boolean>(false);
 
+  const { values, handleChange, setValues } = useForm({ word: '' });
+
   // clear timer Timeout when unmounted to prevent memory leak
 
   useEffect(() => {
@@ -42,12 +45,12 @@ export const StringComponent: React.FC = () => {
     };
   }, []);
 
-  const [word, setWord] = useState('');
+  // const [word, setWord] = useState('');
   const [turningArray, setTurningArray] = useState(arrayFromString);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setWord(event.target.value);
-  };
+  // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setWord(event.target.value);
+  // };
 
   const arrayReversion = (arrayArg: typeof arrayFromString, firstIndex: number, secondIndex: number) => {
     arrayArg = twoElementsOfArrayReversion(arrayArg, firstIndex, secondIndex);
@@ -75,7 +78,7 @@ export const StringComponent: React.FC = () => {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     isTurningRef.current = true;
 
-    let mockArray = Array.from(word);
+    let mockArray = Array.from(values.word as string);
     let start = 0;
     let end = mockArray.length - 1;
     arrayFromString = mockArray.map((elem) => {
@@ -91,8 +94,8 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title='Строка'>
       <div className={`${styles.stringContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input value={word} isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} data-testid='word' />
-          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isTurningRef.current} data-testid='button' disabled={!word} />
+          <Input value={values.word} name={'word'} isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} data-testid='word' />
+          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isTurningRef.current} data-testid='button' disabled={!values.word} />
         </div>
         <div className={`${styles.circleArea}`} data-testid='result'>
           {!!turningArray.length
