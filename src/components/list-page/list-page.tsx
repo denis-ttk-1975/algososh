@@ -12,7 +12,6 @@ import { LinkedList, LinkedListNode } from './linked-list';
 import { addFirst, addLast, deleteFirst, deleteLast, addWithIndex, deleteWithIndex, calculateElementState, calculateElementHead, calculateElementTail } from './utils';
 
 import styles from './list-page.module.css';
-import './list-page.css';
 
 const listForFirstRender = ['3', '8', '19', '75', '7', '03', '2007'];
 
