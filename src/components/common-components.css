@@ -1,0 +1,31 @@
+.input-style {
+  width: 377px;
+}
+
+.button-style {
+  width: 178px;
+}
+
+p {
+  margin: 0;
+}
+
+.button-style-middle {
+  min-width: 175px;
+}
+
+.button-style-long {
+  min-width: 362px;
+}
+
+.margin-right-40 {
+  margin-right: 40px;
+}
+
+.margin-right-52 {
+  margin-right: 52px;
+}
+
+.margin-left-68 {
+  margin-left: 68px;
+}

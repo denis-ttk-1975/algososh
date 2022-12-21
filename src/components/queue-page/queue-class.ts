@@ -1,4 +1,4 @@
-export class Queue {
+export class Queue<T> {
   stack: string[];
   head: number | null;
   tail: number | null;

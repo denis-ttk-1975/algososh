@@ -4,16 +4,35 @@ import { Input } from '../ui/input/input';
 import { Circle } from '../ui/circle/circle';
 import { Button } from '../ui/button/button';
 import { ElementStates } from '../../types/element-states';
+import { useForm } from './../../hooks/useForm';
 
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from './../../constants/delays';
 
 import styles from './string.module.css';
-import './string.css';
 
 let arrayFromString: { element: string; type: ElementStates }[] = [];
 
+export const twoElementsOfArrayReversion = (startArray: { element: string; type: ElementStates }[], firstElem: number, lastElem: number) => {
+  if (!firstElem) {
+    startArray[firstElem] = { ...startArray[firstElem], type: ElementStates.Changing };
+    startArray[lastElem] = { ...startArray[lastElem], type: ElementStates.Changing };
+  } else {
+    startArray[firstElem] = { ...startArray[firstElem], type: ElementStates.Changing };
+    startArray[lastElem] = { ...startArray[lastElem], type: ElementStates.Changing };
+    let temporalValue = startArray[firstElem - 1].element;
+    startArray[firstElem - 1] = { element: startArray[lastElem + 1].element, type: ElementStates.Modified };
+    startArray[lastElem + 1] = { element: temporalValue, type: ElementStates.Modified };
+  }
+
+  return startArray;
+};
+
 export const StringComponent: React.FC = () => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const isTurningRef = useRef<boolean>(false);
+
+  const { values, handleChange, setValues } = useForm({ word: '' });
 
   // clear timer Timeout when unmounted to prevent memory leak
 
@@ -25,25 +44,11 @@ export const StringComponent: React.FC = () => {
     };
   }, []);
 
-  const [word, setWord] = useState('');
   const [turningArray, setTurningArray] = useState(arrayFromString);
-  const [isStringTurning, setStringTurning] = useState(false);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setWord(event.target.value);
-  };
+  const arrayReversion = (arrayArg: typeof arrayFromString, firstIndex: number, secondIndex: number) => {
+    arrayArg = twoElementsOfArrayReversion(arrayArg, firstIndex, secondIndex);
 
-  const changeTwoElements = (arrayArg: typeof arrayFromString, firstIndex: number, secondIndex: number) => {
-    if (!firstIndex) {
-      arrayArg[firstIndex] = { ...arrayArg[firstIndex], type: ElementStates.Changing };
-      arrayArg[secondIndex] = { ...arrayArg[secondIndex], type: ElementStates.Changing };
-    } else {
-      arrayArg[firstIndex] = { ...arrayArg[firstIndex], type: ElementStates.Changing };
-      arrayArg[secondIndex] = { ...arrayArg[secondIndex], type: ElementStates.Changing };
-      let temporalValue = arrayArg[firstIndex - 1].element;
-      arrayArg[firstIndex - 1] = { element: arrayArg[secondIndex + 1].element, type: ElementStates.Modified };
-      arrayArg[secondIndex + 1] = { element: temporalValue, type: ElementStates.Modified };
-    }
     setTurningArray(() => [...arrayArg]);
 
     secondIndex = secondIndex - 1;
@@ -51,7 +56,7 @@ export const StringComponent: React.FC = () => {
 
     if (secondIndex + 1 >= firstIndex) {
       timerRef.current = setTimeout(() => {
-        changeTwoElements(arrayArg, firstIndex, secondIndex);
+        arrayReversion(arrayArg, firstIndex, secondIndex);
       }, DELAY_IN_MS);
     } else {
       timerRef.current = setTimeout(() => {
@@ -59,34 +64,37 @@ export const StringComponent: React.FC = () => {
           return { ...elem, type: ElementStates.Modified };
         });
         setTurningArray(() => [...arrayArg]);
+        isTurningRef.current = false;
       }, DELAY_IN_MS);
     }
   };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setStringTurning(true);
-    let mockArray = Array.from(word);
+    isTurningRef.current = true;
+
+    let mockArray = Array.from(values.word as string);
     let start = 0;
     let end = mockArray.length - 1;
     arrayFromString = mockArray.map((elem) => {
       return { element: elem, type: ElementStates.Default };
     });
     setTurningArray(() => [...arrayFromString]);
-    changeTwoElements([...arrayFromString], start, end);
-    setStringTurning(false);
+    timerRef.current = setTimeout(() => {
+      arrayReversion([...arrayFromString], start, end);
+    }, DELAY_IN_MS);
   };
 
   return (
     <SolutionLayout title='Строка'>
       <div className={`${styles.stringContentArea}`}>
         <div className={`${styles.inputArea}`}>
-          <Input isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} />
-          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isStringTurning} />
+          <Input value={values.word} name={'word'} isLimitText={true} maxLength={11} extraClass={'input-style'} onChange={handleChange} data-testid='word' />
+          <Button text={'Развернуть'} extraClass={'button-style'} onClick={handleClick} isLoader={isTurningRef.current} data-testid='button' disabled={!values.word} />
         </div>
-        <div className={`${styles.circleArea}`}>
+        <div className={`${styles.circleArea}`} data-testid='result'>
           {!!turningArray.length
             ? turningArray.map((elem, index) => {
-                return <Circle letter={elem.element} key={index} state={elem.type} />;
+                return <Circle letter={elem.element} key={index} state={elem.type} data-testid='circle' />;
               })
             : null}
         </div>
