@@ -7,6 +7,6 @@
 ## Author - Denis Ulesov
 ## Автор - Денис Улесов
 
-#### Used tools: HTTP, CSS, Modules, JS, Webpack, NPM, Yarn, React, TypeScript, Jest, Cypress
-#### Используемые библиотеки и фреймворки: HTTP, CSS, Modules, JS, Webpack, NPM, Yarn, React, TypeScript, Jest, Cypress
+#### Used tools: HTML, CSS, Modules, JS, Webpack, NPM, Yarn, React, TypeScript, Jest, Cypress
+#### Используемые библиотеки и фреймворки: HTML, CSS, Modules, JS, Webpack, NPM, Yarn, React, TypeScript, Jest, Cypress
 
