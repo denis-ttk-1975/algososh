@@ -1,9 +1,12 @@
-# 13-ый месяц Яндекс-Практикум. Курс Фронтэнд-Плюс
+# SPA for algorithm visualizer 
+# SPA приложение для визуализации алгоритмов
 
-# Студент - Денис Улесов
+#### Example internet-page available at https://denis-ttk-1975.github.io/algososh/#/
+#### Работающий сайт размещен на https://denis-ttk-1975.github.io/react-burger-yap-denis/
 
-## Спринт тестирование веб-приложений.
+## Author - Denis Ulesov
+## Автор - Денис Улесов
 
-## Использованные технологии - http, css, modules, js, webpack, npm, yarn, React, TypeScript, Jest, Cypress
+#### Used tools: HTTP, CSS, Modules, JS, Webpack, NPM, Yarn, React, TypeScript, Jest, Cypress
+#### Используемые библиотеки и фреймворки: HTTP, CSS, Modules, JS, Webpack, NPM, Yarn, React, TypeScript, Jest, Cypress
 
-## Тесты внедрялись на примере проекта "МБОУ АЛГОСОШ им. Фибоначчи", созданного на предыдущем месяце
